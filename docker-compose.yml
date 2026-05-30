@@ -1,0 +1,16 @@
+services:
+  dashboard:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: eink-wall-dashboard
+    ports:
+      - "3000:3000"
+    restart: unless-stopped
+    environment:
+      # Ink Color Configuration: 'light' (black-on-white) or 'dark' (white-on-black)
+      - EINK_THEME=light
+      # Weather State Preset: 'springShowers', 'mistyMorning', or 'goldenAfternoon'
+      - EINK_SCENARIO=springShowers
+      # UI Calibration Settings Panel: 'true' (visible) or 'false' (hidden)
+      - EINK_SHOW_CONTROLS=true
