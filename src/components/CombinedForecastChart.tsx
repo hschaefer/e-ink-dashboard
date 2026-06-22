@@ -15,38 +15,38 @@ const getSegmentStyle = (condition: string, isDark: boolean) => {
       case 'stormy':
         return { 
           bg: 'bg-neutral-100', 
-          text: 'text-neutral-950 border-r border-neutral-300 last:border-r-0' 
+          text: 'text-black border-r border-neutral-300 last:border-r-0' 
         };
       case 'rainy':
         return { 
           bg: 'bg-neutral-300', 
-          text: 'text-neutral-950 border-r border-neutral-400 last:border-r-0' 
+          text: 'text-black border-r border-neutral-400 last:border-r-0' 
         };
       case 'snowy':
         return { 
           bg: 'bg-neutral-400', 
-          text: 'text-neutral-950 border-r border-neutral-500 last:border-r-0' 
+          text: 'text-black border-r border-neutral-500 last:border-r-0' 
         };
       case 'cloudy':
         return { 
           bg: 'bg-neutral-700', 
-          text: 'text-neutral-200 border-r border-neutral-600 last:border-r-0' 
+          text: 'text-white border-r border-neutral-600 last:border-r-0' 
         };
       case 'partly-cloudy':
         return { 
           bg: 'bg-neutral-800', 
-          text: 'text-neutral-300 border-r border-neutral-700 last:border-r-0' 
+          text: 'text-white border-r border-neutral-700 last:border-r-0' 
         };
       case 'windy':
         return { 
           bg: 'bg-neutral-800', 
-          text: 'text-neutral-300 border-r border-neutral-700 last:border-r-0' 
+          text: 'text-white border-r border-neutral-700 last:border-r-0' 
         };
       case 'sunny':
       default:
         return { 
           bg: 'bg-neutral-950', 
-          text: 'text-neutral-200 border-r border-neutral-900 last:border-r-0' 
+          text: 'text-white border-r border-neutral-900 last:border-r-0' 
         };
     }
   } else {
@@ -55,38 +55,38 @@ const getSegmentStyle = (condition: string, isDark: boolean) => {
       case 'stormy':
         return { 
           bg: 'bg-neutral-900', 
-          text: 'text-neutral-100 border-r border-neutral-950 last:border-r-0' 
+          text: 'text-white border-r border-neutral-950 last:border-r-0' 
         };
       case 'rainy':
         return { 
           bg: 'bg-neutral-700', 
-          text: 'text-neutral-100 border-r border-neutral-800 last:border-r-0' 
+          text: 'text-white border-r border-neutral-800 last:border-r-0' 
         };
       case 'snowy':
         return { 
           bg: 'bg-neutral-100 border-r border-neutral-200 last:border-r-0', 
-          text: 'text-neutral-600' 
+          text: 'text-black' 
         };
       case 'cloudy':
         return { 
           bg: 'bg-neutral-300 border-r border-neutral-400 last:border-r-0', 
-          text: 'text-neutral-800' 
+          text: 'text-black' 
         };
       case 'partly-cloudy':
         return { 
           bg: 'bg-neutral-200 border-r border-neutral-300 last:border-r-0', 
-          text: 'text-neutral-800' 
+          text: 'text-black' 
         };
       case 'windy':
         return { 
           bg: 'bg-neutral-200 border-r border-neutral-300 last:border-r-0', 
-          text: 'text-neutral-700' 
+          text: 'text-black' 
         };
       case 'sunny':
       default:
         return { 
           bg: 'bg-white border-r border-neutral-100 last:border-r-0', 
-          text: 'text-neutral-800' 
+          text: 'text-black' 
         };
     }
   }
@@ -134,14 +134,14 @@ export default function CombinedForecastChart({ data, theme, currentCondition }:
 
       {/* UNIFIED HYBRID VIEW */}
       <div className="flex flex-col gap-4 animate-fade-in" id="hourly-hybrid-view">
-        <div className={`p-4 md:p-5 rounded-lg border ${borderStyle} bg-transparent`}>
+        <div className="p-4 md:p-5 rounded-lg bg-transparent">
           <div className="w-full flex flex-col">
             
             {/* Row A: Times */}
             <div className="grid grid-cols-8 gap-0 mb-3">
               {data.map((item) => (
                 <div key={item.time} className="text-center">
-                  <span className="text-[10px] sm:text-xs font-mono font-black tracking-tight opacity-75">
+                  <span className={`text-xs sm:text-sm font-mono font-black tracking-tight ${isDark ? 'text-white' : 'text-black'}`}>
                     {item.time}
                   </span>
                 </div>
@@ -162,7 +162,7 @@ export default function CombinedForecastChart({ data, theme, currentCondition }:
                   >
                     <WeatherIcon 
                       condition={condition} 
-                      size={15} 
+                      size={22} 
                       strokeWidth={2.5} 
                     />
                   </div>
@@ -182,7 +182,7 @@ export default function CombinedForecastChart({ data, theme, currentCondition }:
             </div>
 
             {/* Row D: Precipitation Block Matrix (0% shaded white/invisible instead of gray) */}
-            <div className="grid grid-cols-8 gap-0 pt-3 border-t border-dashed border-neutral-300/70 dark:border-neutral-800/60 text-center">
+            <div className="grid grid-cols-8 gap-0 pt-3 border-t-2 border-dashed border-neutral-400 dark:border-neutral-700 text-center">
               {data.map((item) => {
                 const hasRain = item.rainProbability > 0;
                 const rainMl = hasRain ? (item.rainProbability * 0.05).toFixed(1) + ' mm' : '0.0 mm';
@@ -190,7 +190,7 @@ export default function CombinedForecastChart({ data, theme, currentCondition }:
                 return (
                   <div key={item.time} className="flex flex-col items-center justify-between">
                     {/* Percent Tag */}
-                    <span className={`text-[10px] font-mono leading-none transition-all duration-150 ${hasRain ? 'font-black opacity-90' : 'opacity-0 select-none'}`}>
+                    <span className={`text-xs sm:text-sm font-mono font-black tracking-tight leading-none transition-all duration-150 ${hasRain ? (isDark ? 'text-white' : 'text-black') : 'opacity-0 select-none'}`}>
                       {item.rainProbability}%
                     </span>
 
@@ -206,11 +206,12 @@ export default function CombinedForecastChart({ data, theme, currentCondition }:
                           height: `${Math.max(2, (item.rainProbability / 100) * 26)}px`,
                           opacity: hasRain ? 0.95 : 0
                         }}
+                        id={`rain-bar-${item.time}`}
                       />
                     </div>
 
                     {/* Volume */}
-                    <span className={`text-[9px] font-mono leading-none tracking-tight transition-all duration-150 ${hasRain ? 'font-bold opacity-80' : 'opacity-0 select-none'}`}>
+                    <span className={`text-xs sm:text-sm font-mono font-black tracking-tight leading-none transition-all duration-150 ${hasRain ? (isDark ? 'text-white' : 'text-black') : 'opacity-0 select-none'}`}>
                       {rainMl}
                     </span>
                   </div>

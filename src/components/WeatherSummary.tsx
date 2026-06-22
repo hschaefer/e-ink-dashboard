@@ -44,16 +44,13 @@ export default function WeatherSummary({ data, theme }: WeatherSummaryProps) {
           <Info size={16} strokeWidth={3} />
           Weather Summary
         </span>
-        <span className="text-[10px] font-mono font-bold tracking-wider opacity-60 uppercase">
-          AI Narrative
-        </span>
       </div>
 
       {/* Narrative Container Block - matches table styling */}
-      <div className={`p-5 rounded-lg border ${
+      <div className={`p-5 rounded-lg ${
         isDark 
-          ? 'bg-transparent border-neutral-800 text-white shadow-neutral-950/20' 
-          : 'bg-transparent border-neutral-200 text-black shadow-neutral-100/50'
+          ? 'bg-transparent text-white shadow-neutral-950/20' 
+          : 'bg-transparent text-black shadow-neutral-100/50'
       }`}>
         <div className="flex flex-col gap-4 text-sm md:text-base font-sans font-medium leading-relaxed text-black">
           
@@ -67,7 +64,7 @@ export default function WeatherSummary({ data, theme }: WeatherSummaryProps) {
 
           {/* Tomorrow section with inline tag */}
           {tomorrow && (
-            <p className="pt-3 border-t border-dashed border-neutral-300/60 dark:border-neutral-800/60">
+            <p className="pt-3 border-t-2 border-dashed border-neutral-400 dark:border-neutral-700">
               <span className="inline-flex items-center justify-center h-5 px-2 py-0.5 rounded text-[10px] font-mono uppercase tracking-wider font-extrabold bg-black text-white mr-2 select-none align-middle">
                 Tomorrow
               </span>

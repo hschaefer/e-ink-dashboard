@@ -33,21 +33,27 @@ export default function App() {
   };
 
   const [theme, setTheme] = useState<EInkTheme>(() => {
-    const envTheme = (window as any).EINK_ENV?.THEME;
+    const envTheme = import.meta.env.DEV 
+      ? (import.meta.env.EINK_THEME || (window as any).EINK_ENV?.THEME)
+      : ((window as any).EINK_ENV?.THEME);
     if (envTheme === 'light' || envTheme === 'dark') {
       return envTheme;
     }
     return 'light';
   });
   const [activeScenario, setActiveScenario] = useState<string>(() => {
-    const envScenario = (window as any).EINK_ENV?.SCENARIO;
+    const envScenario = import.meta.env.DEV
+      ? (import.meta.env.EINK_SCENARIO || (window as any).EINK_ENV?.SCENARIO)
+      : ((window as any).EINK_ENV?.SCENARIO);
     if (envScenario && mockWeatherData[envScenario]) {
       return envScenario;
     }
     return 'springShowers';
   });
   const [showControls, setShowControls] = useState<boolean>(() => {
-    const envShow = (window as any).EINK_ENV?.SHOW_CONTROLS;
+    const envShow = import.meta.env.DEV
+      ? (import.meta.env.EINK_SHOW_CONTROLS || (window as any).EINK_ENV?.SHOW_CONTROLS)
+      : ((window as any).EINK_ENV?.SHOW_CONTROLS);
     if (envShow === 'false') {
       return false;
     }
@@ -79,8 +85,8 @@ export default function App() {
       <main className="relative w-full max-w-7xl mx-auto px-6 pt-4 pb-8 md:px-12 md:pt-6 md:pb-16 flex-grow flex flex-col justify-center">
         
         {/* Compact battery level in top right */}
-        <div className="absolute top-3 right-6 md:top-4 md:right-12 flex items-center gap-1.5 text-xs font-mono font-bold tracking-wider uppercase opacity-75">
-          <Battery size={14} strokeWidth={2.5} />
+        <div className={`absolute top-3 right-6 md:top-4 md:right-12 flex items-center gap-1.5 text-xs sm:text-sm font-mono font-black tracking-tight ${isDark ? 'text-white' : 'text-black'}`}>
+          <Battery size={18} strokeWidth={2.5} />
           <span>{currentData.status.batteryPercent}%</span>
         </div>
 
