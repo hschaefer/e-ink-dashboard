@@ -15,19 +15,20 @@ COPY . .
 RUN npm run build
 
 # Stage 2: Run-time server environment
-FROM nginx:alpine
+FROM node:20-alpine
+WORKDIR /app
 
-# Copy custom nginx configuration for client-side routing and optimized caching
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+# Copy package.json to install only production dependencies
+COPY package.json package-lock.json ./
+RUN npm ci --omit=dev
+
+# Copy server code
+COPY server.js .
 
 # Copy build outputs from the builder stage
-COPY --from=builder /app/dist /usr/share/nginx/html
-
-# Copy configuration generation script to docker-entrypoint.d/ to run on startup
-COPY generate-config.sh /docker-entrypoint.d/30-generate-config.sh
-RUN chmod +x /docker-entrypoint.d/30-generate-config.sh
+COPY --from=builder /app/dist ./dist
 
 # Expose port (configured to 3000 to align with cloud integrations and environment guidelines)
 EXPOSE 3000
 
-CMD ["nginx", "-g", "daemon off;"]
+CMD ["npm", "start"]

@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { mockWeatherData } from './mockData';
+import { useHomeAssistant } from './useHomeAssistant';
 import { EInkTheme } from './types';
 import CurrentWeather from './components/CurrentWeather';
 import WeatherSummary from './components/WeatherSummary';
@@ -60,7 +61,7 @@ export default function App() {
     return true;
   });
 
-  const currentData = mockWeatherData[activeScenario] || mockWeatherData.springShowers;
+  const { data: currentData, loading, error } = useHomeAssistant(activeScenario);
   const isDark = theme === 'dark';
 
   // Apply base styling according to E-Ink Theme
