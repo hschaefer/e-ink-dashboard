@@ -82,82 +82,114 @@ export default function CurrentWeather({ weather, theme }: CurrentWeatherProps) 
 
   return (
     <div className="flex flex-col gap-6 select-none">
-      {/* Primary Weather Layout with Clock side-by-side */}
-      <div className="flex flex-row items-center justify-between gap-6 border-b border-neutral-200 dark:border-neutral-800 pb-5">
-        <div className="flex items-center gap-4">
-          <div className={`p-3.5 rounded-full ${isDark ? 'bg-neutral-900' : 'bg-neutral-100'}`}>
-            <WeatherIcon condition={weather.condition} size={56} strokeWidth={2.5} />
-          </div>
-          <div className="flex flex-col">
-            <span className="text-4xl font-display font-semibold tracking-tight tabular-nums animate-[fade-in_0.5s_ease-out]">
-              {weather.currentTemp.toFixed(1)}&deg;C
-            </span>
-            <span className="text-sm font-mono uppercase tracking-widest font-bold opacity-80">
-              {capitalize(weather.condition)}
-            </span>
-            <span className={`text-[11px] font-sans font-extrabold tracking-wide mt-1 leading-tight ${isDark ? 'text-white' : 'text-black'}`}>
-              {getNextUpMessage()}
+      {/* 1. Timepiece & Status Header */}
+      <div className={`p-5 border-2 border-black dark:border-white rounded-lg flex flex-col sm:flex-row sm:items-center justify-between gap-4 ${isDark ? 'bg-neutral-950 text-white' : 'bg-neutral-50 text-black'}`}>
+        <div className="flex flex-col">
+          <div className="flex items-baseline gap-2">
+            <span className="text-6xl md:text-7xl font-mono font-black tracking-tight tabular-nums leading-none">
+              {timeString}
             </span>
           </div>
         </div>
-
-        {/* E-ink Time/Date Display */}
-        <div className="flex flex-col items-end text-right">
-          <span className="text-4xl font-mono font-black tracking-tight tabular-nums leading-none">
-            {timeString}
-          </span>
-          <span className="text-xs font-mono uppercase tracking-wider font-extrabold opacity-75 mt-1.5">
+        
+        <div className="flex flex-col text-left sm:text-right justify-center">
+          <span className="text-lg md:text-xl font-sans font-black tracking-wide uppercase leading-none">
             {dateString}
           </span>
         </div>
       </div>
 
-      {/* Inside vs Outside Block Highlights (No Borders) */}
-      <div className="grid grid-cols-2 gap-4">
-        {/* OUTDOOR STATUS */}
-        <div className={blockClass}>
-          <div className="text-xs font-mono tracking-widest uppercase font-bold mb-1 flex items-center gap-1.5">
-            <Thermometer size={14} strokeWidth={2.5} />
-            Outdoor Temp
+      {/* 2. Hero Weather Showcase */}
+      <div className="flex flex-col gap-4">
+        <div className="flex items-center gap-6 py-2">
+          {/* Huge Weather Icon */}
+          <div className="p-2 flex items-center justify-center">
+            <WeatherIcon condition={weather.condition} size={112} strokeWidth={2.5} />
           </div>
-          <div className="text-3xl font-display font-bold tracking-tight tabular-nums">
-            {weather.currentTemp.toFixed(1)}&deg;
-          </div>
-          <div className="text-sm font-mono tracking-wider uppercase font-bold mt-1">
-            Humidity: {weather.humidity}%
-          </div>
-        </div>
-
-        {/* INDOOR STATUS */}
-        <div className={reverseBlockClass}>
-          <div className="text-xs font-mono tracking-widest uppercase font-bold mb-1 flex items-center gap-1.5">
-            <Thermometer size={14} strokeWidth={2.5} />
-            Indoor Temp
-          </div>
-          <div className="text-3xl font-display font-bold tracking-tight tabular-nums">
-            {weather.indoorTemp.toFixed(1)}&deg;
-          </div>
-          <div className="text-sm font-mono tracking-wider uppercase font-bold mt-1">
-            Humidity: {weather.indoorHumidity}%
+          
+          {/* Massive Outdoor Temp */}
+          <div className="flex flex-col justify-center">
+            <div className="flex items-start">
+              <span className="text-7xl lg:text-8xl font-display font-black tracking-tight leading-none tabular-nums">
+                {weather.currentTemp.toFixed(1)}
+              </span>
+              <span className="text-3xl lg:text-4xl font-sans font-bold leading-none mt-1 ml-1.5">
+                &deg;C
+              </span>
+            </div>
+            
+            {/* Condition badge & status */}
+            <div className="flex flex-col mt-2.5">
+              <div className="flex">
+                <span className={`px-3.5 py-1.5 text-sm md:text-base font-mono uppercase font-black tracking-widest leading-none rounded-sm ${isDark ? 'bg-white text-black' : 'bg-black text-white'}`}>
+                  {capitalize(weather.condition)}
+                </span>
+              </div>
+              <span className="text-sm md:text-base font-sans font-black tracking-wide mt-2.5 text-black dark:text-white leading-snug">
+                {getNextUpMessage()}
+              </span>
+            </div>
           </div>
         </div>
       </div>
 
-      {/* Grid of secondary statistics, now larger and fully black/white */}
-      <div className="grid grid-cols-2 gap-y-4 gap-x-6 mt-2">
-        <div className="flex items-center gap-3">
-          <Droplets size={20} strokeWidth={2.5} />
-          <div className="flex flex-col">
-            <span className="text-xs font-mono tracking-wider uppercase font-bold">Humidity</span>
-            <span className="text-base font-sans font-bold tracking-tight tabular-nums">{weather.humidity}%</span>
+      {/* 3. Climate Coordinates */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        {/* OUTDOOR VITALS BLOCK */}
+        <div className={`p-4.5 rounded-lg flex flex-col justify-between ${isDark ? 'bg-neutral-950 text-white' : 'bg-white text-black'}`}>
+          <div>
+            <span className="text-xs font-mono uppercase tracking-widest font-black block mb-2">
+              Outdoor
+            </span>
+            <div className="flex flex-col gap-2.5 mt-1">
+              <div className="flex items-center gap-2">
+                <Droplets size={16} strokeWidth={2.5} />
+                <div className="flex justify-between items-baseline w-full">
+                  <span className="text-xs font-sans font-black uppercase">Humidity</span>
+                  <span className="text-sm font-mono font-black tabular-nums">{weather.humidity}%</span>
+                </div>
+              </div>
+              <div className="flex items-center gap-2">
+                <Compass size={16} strokeWidth={2.5} />
+                <div className="flex justify-between items-baseline w-full">
+                  <span className="text-xs font-sans font-black uppercase">Wind</span>
+                  <span className="text-sm font-mono font-black uppercase tabular-nums">
+                    {weather.windSpeed} km/h {weather.windDirection}
+                  </span>
+                </div>
+              </div>
+              <div className="flex items-center gap-2">
+                <Thermometer size={16} strokeWidth={2.5} />
+                <div className="flex justify-between items-baseline w-full">
+                  <span className="text-xs font-sans font-black uppercase">Apparent</span>
+                  <span className="text-sm font-mono font-black tabular-nums">{weather.feelsLike.toFixed(1)}&deg;C</span>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
-        <div className="flex items-center gap-3">
-          <Compass size={20} strokeWidth={2.5} />
-          <div className="flex flex-col">
-            <span className="text-xs font-mono tracking-wider uppercase font-bold">Wind Speed</span>
-            <span className="text-base font-sans font-bold tracking-tight uppercase tabular-nums">{weather.windSpeed} km/h {weather.windDirection}</span>
+        {/* INDOOR ENVIRONMENT MONITOR */}
+        <div className={`p-4.5 rounded-lg flex flex-col justify-between ${isDark ? 'bg-neutral-900 text-white' : 'bg-neutral-100 text-black'}`}>
+          <div>
+            <span className="text-xs font-mono uppercase tracking-widest font-black block mb-1">
+              Indoor
+            </span>
+            <div className="flex items-baseline gap-1.5 mt-1.5">
+              <span className="text-3xl font-display font-black tracking-tight leading-none tabular-nums">
+                {weather.indoorTemp.toFixed(1)}&deg;
+              </span>
+              <span className="text-xs font-sans font-black uppercase">Inside</span>
+            </div>
+            
+            <div className="border-t border-neutral-300 dark:border-neutral-700 mt-4.5 pt-3.5 flex items-center justify-between">
+              <span className="text-[11px] font-mono uppercase tracking-wider font-black">
+                Inside Humidity
+              </span>
+              <span className="text-sm font-mono font-black tabular-nums">
+                {weather.indoorHumidity}%
+              </span>
+            </div>
           </div>
         </div>
       </div>

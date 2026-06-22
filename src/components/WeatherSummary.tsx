@@ -52,7 +52,7 @@ export default function WeatherSummary({ data, theme }: WeatherSummaryProps) {
           ? 'bg-transparent text-white shadow-neutral-950/20' 
           : 'bg-transparent text-black shadow-neutral-100/50'
       }`}>
-        <div className="flex flex-col gap-4 text-sm md:text-base font-sans font-medium leading-relaxed text-black">
+        <div className="flex flex-col gap-4 text-sm md:text-base font-sans font-medium leading-relaxed text-current">
           
           {/* Today section with inline tag */}
           <p>
