@@ -36,7 +36,7 @@ export default function DailyForecastList({
       {/* Title Header with crisp matching E-Ink layout styling */}
       <div className="flex justify-between items-baseline mb-3 pb-1.5 border-b-2 border-current">
         <span className="text-sm font-mono tracking-widest uppercase font-extrabold flex items-center gap-2">
-          5-Day Weather Forecast
+          5-Tage Wettervorhersage
         </span>
       </div>
 
@@ -48,11 +48,11 @@ export default function DailyForecastList({
       }`}>
         {/* Table Header Row aligned to column system for high professional polish */}
         <div className={`grid grid-cols-12 items-center gap-1.5 pb-2 mb-3 border-b-2 border-neutral-400 dark:border-neutral-700 text-xs sm:text-sm font-mono uppercase font-black tracking-tight ${isDark ? 'text-white' : 'text-black'}`}>
-          <div className="col-span-2">Day</div>
-          <div className="col-span-1">View</div>
-          <div className="col-span-3">Rain Scale</div>
+          <div className="col-span-2">Tag</div>
+          <div className="col-span-1">Ansicht</div>
+          <div className="col-span-3">Regen-Skala</div>
           <div className="col-span-1 text-right pr-1">Min</div>
-          <div className="col-span-4 text-center">Temp Range</div>
+          <div className="col-span-4 text-center">Temp.-Bereich</div>
           <div className="col-span-1 pl-1">Max</div>
         </div>
 

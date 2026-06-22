@@ -106,10 +106,10 @@ export default function CalibrationPage({ onBack, currentTheme }: CalibrationPag
               <span className="text-[10px] font-mono uppercase bg-neutral-800 text-neutral-200 border border-neutral-700 px-1.5 py-0.5 rounded font-bold tracking-widest">
                 E-INK TOOL
               </span>
-              <h1 className="text-lg font-display font-medium">Display Calibration Panel</h1>
+              <h1 className="text-lg font-display font-medium">Display-Kalibrierungspanel</h1>
             </div>
             <p className="text-xs text-neutral-400 font-sans mt-0.5">
-              Calibrate and verify gray levels, dynamic range, and pixel bleed on e-paper screens.
+              Kalibrieren und überprüfen Sie Graustufen, Dynamikumfang und Pixel-Bleeding auf E-Paper-Bildschirmen.
             </p>
           </div>
         </div>
@@ -121,7 +121,7 @@ export default function CalibrationPage({ onBack, currentTheme }: CalibrationPag
       <section className="bg-neutral-900/30 border-b border-neutral-800/80 px-6 py-3 flex flex-wrap items-center justify-between gap-4 z-10">
         {/* Left tools: Mode Switches */}
         <div className="flex flex-wrap items-center gap-2">
-          <span className="text-xs font-mono font-bold text-neutral-500 uppercase mr-1">Pattern:</span>
+          <span className="text-xs font-mono font-bold text-neutral-500 uppercase mr-1">Muster:</span>
           
           <button
             onClick={() => setMode('grid')}
@@ -132,7 +132,7 @@ export default function CalibrationPage({ onBack, currentTheme }: CalibrationPag
             }`}
           >
             <LayoutGrid size={13} />
-            Grid
+            Raster
           </button>
 
           <button
@@ -144,7 +144,7 @@ export default function CalibrationPage({ onBack, currentTheme }: CalibrationPag
             }`}
           >
             <Columns size={13} />
-            V-Bars
+            V-Balken
           </button>
 
           <button
@@ -156,7 +156,7 @@ export default function CalibrationPage({ onBack, currentTheme }: CalibrationPag
             }`}
           >
             <Rows size={13} />
-            H-Bars
+            H-Balken
           </button>
 
           <button
@@ -168,7 +168,7 @@ export default function CalibrationPage({ onBack, currentTheme }: CalibrationPag
             }`}
           >
             <Grid size={13} />
-            Checker
+            Schachbrett
           </button>
 
           <button
@@ -180,7 +180,7 @@ export default function CalibrationPage({ onBack, currentTheme }: CalibrationPag
             }`}
           >
             <Type size={13} />
-            Sharpness
+            Schärfe
           </button>
         </div>
 
@@ -188,7 +188,7 @@ export default function CalibrationPage({ onBack, currentTheme }: CalibrationPag
         {mode !== 'checkerboard' && mode !== 'typography' && (
           <div className="flex flex-wrap items-center gap-4">
             <div className="flex items-center gap-2">
-              <span className="text-xs font-mono font-bold text-neutral-500 uppercase">Levels:</span>
+              <span className="text-xs font-mono font-bold text-neutral-500 uppercase">Stufen:</span>
               <div className="flex bg-neutral-950 border border-neutral-800 rounded overflow-hidden">
                 {[6, 4, 8, 16, 32].map((lv) => (
                   <button
@@ -200,7 +200,7 @@ export default function CalibrationPage({ onBack, currentTheme }: CalibrationPag
                         : 'text-neutral-400 hover:text-white'
                     }`}
                   >
-                    {lv === 6 ? '6 (Calibrated)' : lv}
+                    {lv === 6 ? '6 (Kalibriert)' : lv}
                   </button>
                 ))}
               </div>
@@ -211,7 +211,7 @@ export default function CalibrationPage({ onBack, currentTheme }: CalibrationPag
               className="flex items-center gap-1 bg-neutral-900 border border-neutral-800 hover:bg-neutral-800 hover:text-white text-xs font-mono px-2.5 py-1 rounded transition text-neutral-400"
             >
               {isInverted ? <Sun size={12} className="text-neutral-200" /> : <Moon size={12} />}
-              {isInverted ? 'W → B (Normal)' : 'B → W (Inverted)'}
+              {isInverted ? 'W → S (Normal)' : 'S → W (Invertiert)'}
             </button>
           </div>
         )}
@@ -340,7 +340,7 @@ export default function CalibrationPage({ onBack, currentTheme }: CalibrationPag
         {mode === 'checkerboard' && (
           <div className="flex flex-col items-center gap-4 w-full">
             <p className="text-xs text-neutral-400 max-w-md text-center">
-              Checkerboard pattern tests pixel fringing & sharpness. It flashes sharp pixel boundaries which are notoriously difficult for E-Ink framebuffers.
+              Das Schachbrettmuster testet Pixelfransen und Schärfe. Es zeigt scharfe Pixelgrenzen, die für E-Ink-Framebuffer berüchtigt schwer darzustellen sind.
             </p>
             <div className="w-full max-w-md aspect-square grid grid-cols-8 grid-rows-8 border border-neutral-800 bg-white shadow-xl">
               {Array.from({ length: 64 }).map((_, i) => {
@@ -357,10 +357,10 @@ export default function CalibrationPage({ onBack, currentTheme }: CalibrationPag
             </div>
             <div className="flex items-center gap-4">
               <div className="flex items-center gap-1.5 text-xs text-neutral-400 font-mono">
-                <span className="w-3 h-3 bg-black border border-neutral-700 inline-block"/> Black (#000000)
+                <span className="w-3 h-3 bg-black border border-neutral-700 inline-block"/> Schwarz (#000000)
               </div>
               <div className="flex items-center gap-1.5 text-xs text-neutral-400 font-mono">
-                <span className="w-3 h-3 bg-white inline-block"/> White (#FFFFFF)
+                <span className="w-3 h-3 bg-white inline-block"/> Weiß (#FFFFFF)
               </div>
             </div>
           </div>
@@ -373,13 +373,13 @@ export default function CalibrationPage({ onBack, currentTheme }: CalibrationPag
             {/* Custom string input */}
             <div className="no-print bg-neutral-100 border border-neutral-200 p-4 rounded flex flex-col sm:flex-row gap-3 items-center justify-between">
               <div className="flex flex-col gap-0.5 w-full sm:w-auto flex-grow">
-                <label className="text-[10px] font-mono uppercase font-bold text-neutral-500">Test String Customizer</label>
+                <label className="text-[10px] font-mono uppercase font-bold text-neutral-500">Test-String-Anpassung</label>
                 <input 
                   type="text" 
                   value={customText} 
                   onChange={(e) => setCustomText(e.target.value)}
                   className="bg-white border border-neutral-300 text-black px-3 py-1.5 rounded text-xs focus:outline-none w-full"
-                  placeholder="Type anything to test typography limits..."
+                  placeholder="Tippen Sie etwas ein, um Typografie-Grenzen zu testen..."
                 />
               </div>
               <div className="flex gap-2 shrink-0">
@@ -387,13 +387,13 @@ export default function CalibrationPage({ onBack, currentTheme }: CalibrationPag
                   onClick={() => setCustomText("Quick brown fox jumps over the lazy dog")} 
                   className="px-2.5 py-1 text-[10px] font-mono border border-neutral-300 bg-white rounded cursor-pointer hover:bg-neutral-50"
                 >
-                  Fox Default
+                  Fuchs Standard
                 </button>
                 <button 
                   onClick={() => setCustomText("0123456789 !@#$%^&*()_+{}|:<>?`~[]\\;',./")} 
                   className="px-2.5 py-1 text-[10px] font-mono border border-neutral-300 bg-white rounded cursor-pointer hover:bg-neutral-50"
                 >
-                  Chars
+                  Zeichen
                 </button>
               </div>
             </div>
@@ -441,15 +441,15 @@ export default function CalibrationPage({ onBack, currentTheme }: CalibrationPag
       <footer className="border-t border-neutral-800 bg-neutral-950 px-6 py-4 flex flex-col md:flex-row items-center justify-between text-[11px] text-neutral-500 font-mono gap-4 z-10">
         <div className="flex items-center gap-1.5">
           <Info size={12} className="text-neutral-400" />
-          <span>E-Ink modules require pure monochrome hex references. Gradients help map anti-aliasing curve filters.</span>
+          <span>E-Ink-Module benötigen reine monochrome Hex-Referenzen. Farbverläufe helfen bei der Zuordnung von Anti-Aliasing-Kurvenfiltern.</span>
         </div>
         <div className="flex items-center gap-4">
-          <span>Format: 8-Bit Grayscale API</span>
+          <span>Format: 8-Bit Graustufen-API</span>
           <button 
             onClick={onBack}
             className="text-neutral-400 hover:text-white border-b border-dotted border-neutral-500 hover:border-white transition cursor-pointer"
           >
-            Exit calibration
+            Kalibrierung beenden
           </button>
         </div>
       </footer>

@@ -138,10 +138,10 @@ export default function App() {
             {/* Information info */}
             <div className="flex flex-col gap-1">
               <span className="text-xs font-mono font-bold uppercase tracking-widest flex items-center gap-1.5">
-                <Settings size={14} /> E-Ink Calibration Panel
+                <Settings size={14} /> E-Ink Kalibrierungspanel
               </span>
               <p className="text-[11px] font-sans opacity-60 leading-relaxed max-w-md">
-                This simulated panel configures the display styling to perfectly align with various e-paper hardware modules (such as Waveshare, Inkplate, Kobo or Kindle).
+                Dieses simulierte Panel konfiguriert das Display-Styling so, dass es perfekt auf verschiedene E-Paper-Hardwaremodule (wie Waveshare, Inkplate, Kobo oder Kindle) abgestimmt ist.
               </p>
             </div>
 
@@ -149,33 +149,33 @@ export default function App() {
             <div className="flex flex-wrap items-center gap-3">
               {/* Season Selection */}
               <div className="flex flex-col gap-1">
-                <span className="text-[9px] font-mono uppercase tracking-wider opacity-60">Weather State</span>
+                <span className="text-[9px] font-mono uppercase tracking-wider opacity-60">Wetterlage</span>
                 <select 
                   value={activeScenario} 
                   onChange={(e) => setActiveScenario(e.target.value)}
                   className={`px-3 py-1.5 text-xs font-mono tracking-wide rounded bg-transparent ${isDark ? 'text-white border border-neutral-800' : 'text-black border border-neutral-300'} outline-none`}
                 >
-                  <option className={isDark ? 'bg-black text-white' : 'bg-white text-black'} value="springShowers">🌦️ Spring Showers</option>
-                  <option className={isDark ? 'bg-black text-white' : 'bg-white text-black'} value="mistyMorning">🌫️ Misty Morning</option>
-                  <option className={isDark ? 'bg-black text-white' : 'bg-white text-black'} value="goldenAfternoon">☀️ Golden Afternoon</option>
+                  <option className={isDark ? 'bg-black text-white' : 'bg-white text-black'} value="springShowers">🌦️ Frühlingsregen</option>
+                  <option className={isDark ? 'bg-black text-white' : 'bg-white text-black'} value="mistyMorning">🌫️ Nebeliger Morgen</option>
+                  <option className={isDark ? 'bg-black text-white' : 'bg-white text-black'} value="goldenAfternoon">☀️ Goldener Nachmittag</option>
                 </select>
               </div>
 
               {/* Ink Style toggle */}
               <div className="flex flex-col gap-1">
-                <span className="text-[9px] font-mono uppercase tracking-wider opacity-60">Ink Configuration</span>
+                <span className="text-[9px] font-mono uppercase tracking-wider opacity-60">eInk Konfiguration</span>
                 <div className="flex rounded overflow-hidden">
                   <button 
                     onClick={() => setTheme('light')}
                     className={`px-3 py-1.5 text-xs font-mono eink-button ${theme === 'light' ? (isDark ? 'bg-white text-black' : 'bg-black text-white font-bold') : (isDark ? 'bg-neutral-800 text-neutral-400' : 'bg-neutral-200 text-neutral-600')}`}
                   >
-                    LIGHT (B/W)
+                    HELL (S/W)
                   </button>
                   <button 
                     onClick={() => setTheme('dark')}
                     className={`px-3 py-1.5 text-xs font-mono eink-button ${theme === 'dark' ? (isDark ? 'bg-white text-black font-bold' : 'bg-black text-white') : (isDark ? 'bg-neutral-800 text-neutral-400' : 'bg-neutral-200 text-neutral-600')}`}
                   >
-                    DARK (W/B)
+                    DUNKEL (W/S)
                   </button>
                 </div>
               </div>
@@ -184,32 +184,32 @@ export default function App() {
               <button
                 onClick={() => navigate('/calibration')}
                 className={`self-end flex items-center justify-center gap-1.5 px-3 py-1.5 rounded text-xs font-mono eink-button ${isDark ? 'hover:bg-neutral-800 text-neutral-300' : 'hover:bg-neutral-200 text-neutral-800'}`}
-                title="Go to display calibration tool"
+                title="Gehe zum Display-Kalibrierungstool"
               >
                 <Sliders size={14} />
-                CALIBRATE SCREEN
+                BILDSCHIRM KALIBRIEREN
               </button>
 
               {/* Hide panel utility */}
               <button
                 onClick={() => setShowControls(false)}
                 className={`self-end flex items-center justify-center gap-1.5 px-3 py-1.5 rounded text-xs font-mono eink-button ${isDark ? 'hover:bg-neutral-800 text-neutral-300' : 'hover:bg-neutral-200 text-neutral-800'}`}
-                title="Hide this panel to preview the pure paper layout"
+                title="Dieses Panel ausblenden, um das reine Papier-Layout als Vorschau anzuzeigen"
               >
                 <EyeOff size={14} />
-                HIDE PANEL
+                PANEL AUSBLENDEN
               </button>
             </div>
           </div>
         ) : (
           <div className="flex justify-start pb-4">
-            <button
-              onClick={() => setShowControls(true)}
-              className={`flex items-center gap-1.5 px-3 py-1 text-[10px] font-mono tracking-widest uppercase rounded opacity-30 hover:opacity-90 transition-opacity eink-button ${isDark ? 'bg-neutral-950 text-white' : 'bg-neutral-50 text-black'}`}
-            >
-              <Eye size={12} />
-              SHOW CALIBRATION UTILITIES
-            </button>
+              <button
+                onClick={() => setShowControls(true)}
+                className={`flex items-center gap-1.5 px-3 py-1 text-[10px] font-mono tracking-widest uppercase rounded opacity-30 hover:opacity-90 transition-opacity eink-button ${isDark ? 'bg-neutral-950 text-white' : 'bg-neutral-50 text-black'}`}
+              >
+                <Eye size={12} />
+                KALIBRIERUNGS-WERKZEUGE ANZEIGEN
+              </button>
           </div>
         )}
       </footer>

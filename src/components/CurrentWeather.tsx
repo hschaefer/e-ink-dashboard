@@ -49,15 +49,14 @@ export default function CurrentWeather({ weather, theme, aiShortSummary }: Curre
     const formattedMinutes = String(roundedDate.getMinutes()).padStart(2, '0');
     const timeString = `${formattedHours}:${formattedMinutes}`;
     
-    const weekdayString = roundedDate.toLocaleDateString('en-US', { weekday: 'long' }).toUpperCase();
-    const dateDetailString = `${roundedDate.getDate()}. ${roundedDate.toLocaleDateString('en-US', { month: 'long' }).toUpperCase()}`;
+    const weekdayString = roundedDate.toLocaleDateString('de-DE', { weekday: 'long' }).toUpperCase();
+    const dateDetailString = `${roundedDate.getDate()}. ${roundedDate.toLocaleDateString('de-DE', { month: 'long' }).toUpperCase()}`;
 
     return { timeString, weekdayString, dateDetailString };
   };
 
   const { timeString, weekdayString, dateDetailString } = getRoundedTimeAndDate();
 
-  // Determine what is coming next based on the weather condition
   const getNextUpMessage = () => {
     if (aiShortSummary) {
       // Return the short summary as is, trim any potential periods added by the LLM
@@ -66,20 +65,33 @@ export default function CurrentWeather({ weather, theme, aiShortSummary }: Curre
     const cond = weather.condition.toLowerCase();
     switch (cond) {
       case 'rainy':
-        return 'Rain easing in 1 hr';
+        return 'Regen lässt in 1 Std. nach';
       case 'cloudy':
-        return 'Sunny this afternoon';
+        return 'Sonnig heute Nachmittag';
       case 'sunny':
-        return 'Clear skies tonight';
+        return 'Klare Sicht heute Nacht';
       case 'stormy':
-        return 'Storm passing in 1 hr';
+        return 'Sturm zieht in 1 Std. vorüber';
       case 'snowy':
-        return 'Snow easing tonight';
+        return 'Schnee lässt heute Nacht nach';
       case 'windy':
-        return 'Winds easing later';
+        return 'Wind lässt später nach';
       default:
-        return 'Conditions stable';
+        return 'Stabile Wetterlage';
     }
+  };
+
+  const translateCondition = (cond: string) => {
+    const mapping: Record<string, string> = {
+      sunny: 'Sonnig',
+      rainy: 'Regnerisch',
+      cloudy: 'Bewölkt',
+      stormy: 'Stürmisch',
+      snowy: 'Schneefall',
+      windy: 'Windig',
+      'partly-cloudy': 'Teils Bewölkt'
+    };
+    return mapping[cond.toLowerCase()] || capitalize(cond);
   };
 
   return (
@@ -126,7 +138,7 @@ export default function CurrentWeather({ weather, theme, aiShortSummary }: Curre
             {/* Condition badge & status */}
             <div className="flex flex-row items-center gap-4 mt-2.5 flex-wrap">
               <span className={`px-3.5 py-1.5 text-sm md:text-base font-mono uppercase font-black tracking-widest leading-none rounded-sm ${isDark ? 'bg-white text-black' : 'bg-black text-white'}`}>
-                {capitalize(weather.condition)}
+                {translateCondition(weather.condition)}
               </span>
               <span className={`text-sm md:text-base font-sans font-black tracking-wide leading-snug ${isDark ? 'text-white' : 'text-black'}`}>
                 {getNextUpMessage()}
@@ -142,13 +154,13 @@ export default function CurrentWeather({ weather, theme, aiShortSummary }: Curre
         <div className={`p-4.5 rounded-lg flex flex-col justify-between ${isDark ? 'bg-neutral-950 text-white' : 'bg-white text-black'}`}>
           <div>
             <span className="text-xs font-mono uppercase tracking-widest font-black block mb-2">
-              Outdoor
+              Außen
             </span>
             <div className="flex flex-col gap-2.5 mt-1">
               <div className="flex items-center gap-2">
                 <Droplets size={16} strokeWidth={2.5} />
                 <div className="flex justify-between items-baseline w-full">
-                  <span className="text-xs font-sans font-black uppercase">Humidity</span>
+                  <span className="text-xs font-sans font-black uppercase">Luftfeuchtigkeit</span>
                   <span className="text-sm font-mono font-black tabular-nums">{weather.humidity}%</span>
                 </div>
               </div>
@@ -169,18 +181,18 @@ export default function CurrentWeather({ weather, theme, aiShortSummary }: Curre
         <div className={`p-4.5 rounded-lg flex flex-col justify-between ${isDark ? 'bg-neutral-900 text-white' : 'bg-neutral-100 text-black'}`}>
           <div>
             <span className="text-xs font-mono uppercase tracking-widest font-black block mb-1">
-              Indoor
+              Innen
             </span>
             <div className="flex items-baseline gap-1.5 mt-1.5">
               <span className="text-3xl font-display font-black tracking-tight leading-none tabular-nums">
                 {weather.indoorTemp.toFixed(1)}&deg;
               </span>
-              <span className="text-xs font-sans font-black uppercase">Inside</span>
+              <span className="text-xs font-sans font-black uppercase">Innen</span>
             </div>
             
             <div className="border-t border-neutral-300 dark:border-neutral-700 mt-4.5 pt-3.5 flex items-center justify-between">
               <span className="text-[11px] font-mono uppercase tracking-wider font-black">
-                Inside Humidity
+                Luftfeuchtigkeit Innen
               </span>
               <span className="text-sm font-mono font-black tabular-nums">
                 {weather.indoorHumidity}%

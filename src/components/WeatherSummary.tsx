@@ -13,7 +13,20 @@ export default function WeatherSummary({ data, theme }: WeatherSummaryProps) {
   const { weather, hourly, daily } = data;
   const tomorrow = daily[0];
 
-  const todayCond = weather.condition.toLowerCase();
+  const translateCondition = (cond: string) => {
+    const mapping: Record<string, string> = {
+      sunny: 'sonnig',
+      rainy: 'regnerisch',
+      cloudy: 'bewölkt',
+      stormy: 'stürmisch',
+      snowy: 'schneefall',
+      windy: 'windig',
+      'partly-cloudy': 'teils bewölkt'
+    };
+    return mapping[cond.toLowerCase()] || cond;
+  };
+
+  const todayCond = translateCondition(weather.condition);
   const todayTemp = weather.currentTemp.toFixed(1);
   
   let todayPrecip = '';
@@ -21,20 +34,20 @@ export default function WeatherSummary({ data, theme }: WeatherSummaryProps) {
   if (rainPoints.length > 0) {
     const peakRain = Math.max(...hourly.map(h => h.rainProbability));
     const peakTime = hourly.find(h => h.rainProbability === peakRain)?.time || '';
-    todayPrecip = `Rain likely, peaking at ${peakRain}% around ${peakTime}.`;
+    todayPrecip = `Regen wahrscheinlich, Höchstwert von ${peakRain}% um ${peakTime} Uhr.`;
   } else {
-    todayPrecip = 'No major precipitation expected.';
+    todayPrecip = 'Keine nennenswerten Niederschläge erwartet.';
   }
 
-  const todayWind = weather.windSpeed > 15 ? ` Windy (${weather.windSpeed} km/h).` : '';
+  const todayWind = weather.windSpeed > 15 ? ` Windig (${weather.windSpeed} km/h).` : '';
 
   let tomorrowText = '';
   if (tomorrow) {
-    const tomCond = tomorrow.condition.toLowerCase();
+    const tomCond = translateCondition(tomorrow.condition);
     const tomPrecip = tomorrow.rainProbability > 40 
-      ? `rain likely (${tomorrow.rainProbability}%)` 
-      : 'mostly dry';
-    tomorrowText = `mostly ${tomCond} (${tomorrow.tempMin}°C to ${tomorrow.tempMax}°C), ${tomPrecip}.`;
+      ? `Regen wahrscheinlich (${tomorrow.rainProbability}%)` 
+      : 'überwiegend trocken';
+    tomorrowText = `überwiegend ${tomCond} (${tomorrow.tempMin}°C bis ${tomorrow.tempMax}°C), ${tomPrecip}.`;
   }
 
   return (
@@ -43,7 +56,7 @@ export default function WeatherSummary({ data, theme }: WeatherSummaryProps) {
       <div className="flex justify-between items-baseline mb-3 pb-1.5 border-b-2 border-current">
         <span className="text-sm font-mono tracking-widest uppercase font-extrabold flex items-center gap-2">
           <Info size={16} strokeWidth={3} />
-          Weather Summary
+          Wetterübersicht
         </span>
       </div>
 
@@ -56,26 +69,28 @@ export default function WeatherSummary({ data, theme }: WeatherSummaryProps) {
         <div className="flex flex-col gap-4 text-sm md:text-base font-sans font-medium leading-relaxed text-current">
           
           {data.aiSummary ? (
-            <ReactMarkdown className="[&>p]:mb-3 [&>p:last-child]:mb-0 [&>strong]:font-black [&>ul]:list-disc [&>ul]:pl-5 [&>ul]:mb-3 [&>ul:last-child]:mb-0 [&>em]:italic">
-              {data.aiSummary}
-            </ReactMarkdown>
+            <div className="[&>p]:mb-3 [&>p:last-child]:mb-0 [&>strong]:font-black [&>ul]:list-disc [&>ul]:pl-5 [&>ul]:mb-3 [&>ul:last-child]:mb-0 [&>em]:italic">
+              <ReactMarkdown>
+                {data.aiSummary}
+              </ReactMarkdown>
+            </div>
           ) : (
             <>
               {/* Today section with inline tag */}
               <p>
                 <span className="inline-flex items-center justify-center h-5 px-2 py-0.5 rounded text-[10px] font-mono uppercase tracking-wider font-extrabold bg-black text-white mr-2 select-none align-middle">
-                  Today
+                  Heute
                 </span>
-                is mostly {todayCond} ({todayTemp}°C). {todayPrecip}{todayWind}
+                ist überwiegend {todayCond} ({todayTemp}°C). {todayPrecip}{todayWind}
               </p>
 
               {/* Tomorrow section with inline tag */}
               {tomorrow && (
                 <p className="pt-3 border-t-2 border-dashed border-neutral-400 dark:border-neutral-700">
                   <span className="inline-flex items-center justify-center h-5 px-2 py-0.5 rounded text-[10px] font-mono uppercase tracking-wider font-extrabold bg-black text-white mr-2 select-none align-middle">
-                    Tomorrow
+                    Morgen
                   </span>
-                  transitions to {tomorrowText}
+                  wird {tomorrowText}
                 </p>
               )}
             </>

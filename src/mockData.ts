@@ -49,7 +49,7 @@ export const mockWeatherData: Record<string, DashboardData> = {
       { name: "Meadow Grass", category: "Grass", level: 1, status: "Low", desc: "Early season grass starting" },
       { name: "Mugwort", category: "Weed", level: 0, status: "None", desc: "No activity" }
     ],
-    aiSummary: "Rain is likely this afternoon, clearing up tonight. Tomorrow will be cloudy and cool.",
+    aiSummary: "Heute Nachmittag ist Regen wahrscheinlich, der sich heute Nacht aufklart. Morgen wird es bewölkt und kühl.",
     aiShortSummary: "Regen in 1 Stunde"
   },
   mistyMorning: {
@@ -100,7 +100,7 @@ export const mockWeatherData: Record<string, DashboardData> = {
       { name: "Meadow Grass", category: "Grass", level: 0, status: "None", desc: "Dormant activity" },
       { name: "Mugwort", category: "Weed", level: 0, status: "None", desc: "No active weeds germinating" }
     ],
-    aiSummary: "The morning fog will lift by midday, leaving clear skies. Tomorrow will be bright and sunny.",
+    aiSummary: "Der morgendliche Nebel lichtet sich bis zum Mittag und sorgt für klaren Himmel. Morgen wird es hell und sonnig.",
     aiShortSummary: "Nebel lichtet sich"
   },
   goldenAfternoon: {
@@ -151,7 +151,7 @@ export const mockWeatherData: Record<string, DashboardData> = {
       { name: "Ragweed", category: "Weed", level: 2, status: "Low", desc: "Late summer weed starting" },
       { name: "Birch", category: "Tree", level: 0, status: "None", desc: "Tree pollination fully concluded" }
     ],
-    aiSummary: "Enjoy a warm and perfectly sunny afternoon. The wonderful weather will continue through tomorrow.",
+    aiSummary: "Genießen Sie einen warmen und perfekt sonnigen Nachmittag. Das herrliche Wetter hält auch morgen an.",
     aiShortSummary: "Durchgehend sonnig"
   }
 };

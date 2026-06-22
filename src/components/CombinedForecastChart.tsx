@@ -128,7 +128,7 @@ export default function CombinedForecastChart({ data, theme, currentCondition }:
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-1 border-b-2 border-current">
         <span className="text-sm font-mono tracking-widest uppercase font-extrabold flex items-center gap-2">
           <Clock size={16} strokeWidth={3} />
-          Hourly Forecast
+          Stündliche Vorhersage
         </span>
       </div>
 
