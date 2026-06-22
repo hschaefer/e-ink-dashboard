@@ -66,6 +66,37 @@ app.get('/api/ha/states/:entityId', async (req, res) => {
   }
 });
 
+// Proxy for Weather Forecasts (HA 2024.4+ requires service calls for forecasts)
+app.get('/api/ha/forecasts/:entityId', async (req, res) => {
+  const entityId = req.params.entityId;
+  const type = req.query.type || 'hourly';
+
+  if (!HA_URL || !HA_TOKEN) {
+    return res.status(503).json({ error: 'Home Assistant is not configured on the server.' });
+  }
+
+  try {
+    const response = await fetch(`${HA_URL}/api/services/weather/get_forecasts?return_response=true`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${HA_TOKEN}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ entity_id: entityId, type })
+    });
+
+    if (!response.ok) {
+      return res.status(response.status).json({ error: 'Failed to fetch forecasts from Home Assistant' });
+    }
+
+    const data = await response.json();
+    res.json(data);
+  } catch (error) {
+    console.error(`HA Forecast Proxy Error for ${entityId}:`, error.message);
+    res.status(500).json({ error: 'Internal Server Error fetching forecasts' });
+  }
+});
+
 // --- Static Frontend Serving ---
 // Serve the Vite build output
 app.use(express.static(path.join(__dirname, 'dist')));

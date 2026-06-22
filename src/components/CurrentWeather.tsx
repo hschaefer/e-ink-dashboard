@@ -158,13 +158,6 @@ export default function CurrentWeather({ weather, theme }: CurrentWeatherProps) 
                   </span>
                 </div>
               </div>
-              <div className="flex items-center gap-2">
-                <Thermometer size={16} strokeWidth={2.5} />
-                <div className="flex justify-between items-baseline w-full">
-                  <span className="text-xs font-sans font-black uppercase">Apparent</span>
-                  <span className="text-sm font-mono font-black tabular-nums">{weather.feelsLike.toFixed(1)}&deg;C</span>
-                </div>
-              </div>
             </div>
           </div>
         </div>

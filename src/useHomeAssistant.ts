@@ -72,11 +72,26 @@ export function useHomeAssistant(activeScenario: string) {
         const ePm25 = env.HA_ENTITY_PM25 || (window as any).EINK_ENV?.HA_ENTITY_PM25;
         const eLqi = env.HA_ENTITY_LQI || (window as any).EINK_ENV?.HA_ENTITY_LQI;
 
-        // Fetch all requested entities
+        // Helper to fetch forecast
+        const fetchForecast = async (entityId: string, type: 'hourly' | 'daily') => {
+          if (!entityId) return null;
+          try {
+            const res = await fetch(`/api/ha/forecasts/${entityId}?type=${type}`);
+            if (!res.ok) return null;
+            return await res.json();
+          } catch (e) {
+            console.error(`Failed to fetch forecast ${type} for ${entityId}`, e);
+            return null;
+          }
+        };
+
+        // Fetch all requested entities and forecasts
         const [
-          weatherState, inTempState, inHumState, batteryState, wifiState, pm25State, lqiState
+          weatherState, hourlyForecast, dailyForecast, inTempState, inHumState, batteryState, wifiState, pm25State, lqiState
         ] = await Promise.all([
           fetchEntity(eWeather),
+          fetchForecast(eWeather, 'hourly'),
+          fetchForecast(eWeather, 'daily'),
           fetchEntity(eInTemp),
           fetchEntity(eInHum),
           fetchEntity(eBattery),
@@ -103,6 +118,33 @@ export function useHomeAssistant(activeScenario: string) {
           newData.weather.condition = mapCondition(weatherState.state);
           newData.weather.lastUpdated = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) + ' HA';
           // we don't always get feelsLike from HA weather entity, keeping base or computing could be done, we keep base for now.
+        }
+
+        if (hourlyForecast && hourlyForecast.service_response) {
+          const forecastData = Object.values(hourlyForecast.service_response)[0] as any;
+          if (forecastData && Array.isArray(forecastData.forecast)) {
+            newData.hourly = forecastData.forecast.slice(0, 8).map((f: any) => ({
+              time: new Date(f.datetime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+              temp: Math.round(f.temperature),
+              rainProbability: f.precipitation_probability || 0
+            }));
+          }
+        }
+
+        if (dailyForecast && dailyForecast.service_response) {
+          const forecastData = Object.values(dailyForecast.service_response)[0] as any;
+          if (forecastData && Array.isArray(forecastData.forecast)) {
+            newData.daily = forecastData.forecast.slice(0, 5).map((f: any) => {
+              const date = new Date(f.datetime);
+              return {
+                day: date.toLocaleDateString([], { weekday: 'short' }),
+                tempMin: Math.round(f.templow !== undefined ? f.templow : f.temperature),
+                tempMax: Math.round(f.temperature),
+                condition: mapCondition(f.condition),
+                rainProbability: f.precipitation_probability || 0
+              };
+            });
+          }
         }
 
         if (inTempState && !isNaN(parseFloat(inTempState.state))) {
