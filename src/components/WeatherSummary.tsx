@@ -1,5 +1,6 @@
 import { DashboardData } from '../types';
 import { Info } from 'lucide-react';
+import ReactMarkdown from 'react-markdown';
 
 interface WeatherSummaryProps {
   data: DashboardData;
@@ -55,7 +56,9 @@ export default function WeatherSummary({ data, theme }: WeatherSummaryProps) {
         <div className="flex flex-col gap-4 text-sm md:text-base font-sans font-medium leading-relaxed text-current">
           
           {data.aiSummary ? (
-            <p className="whitespace-pre-wrap">{data.aiSummary}</p>
+            <ReactMarkdown className="[&>p]:mb-3 [&>p:last-child]:mb-0 [&>strong]:font-black [&>ul]:list-disc [&>ul]:pl-5 [&>ul]:mb-3 [&>ul:last-child]:mb-0 [&>em]:italic">
+              {data.aiSummary}
+            </ReactMarkdown>
           ) : (
             <>
               {/* Today section with inline tag */}
