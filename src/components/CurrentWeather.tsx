@@ -6,9 +6,10 @@ import { Thermometer, Droplets, Compass } from 'lucide-react';
 interface CurrentWeatherProps {
   weather: WeatherData;
   theme: 'light' | 'dark';
+  aiShortSummary?: string;
 }
 
-export default function CurrentWeather({ weather, theme }: CurrentWeatherProps) {
+export default function CurrentWeather({ weather, theme, aiShortSummary }: CurrentWeatherProps) {
   const isDark = theme === 'dark';
   const [now, setNow] = useState(() => new Date());
 
@@ -58,6 +59,10 @@ export default function CurrentWeather({ weather, theme }: CurrentWeatherProps) 
 
   // Determine what is coming next based on the weather condition
   const getNextUpMessage = () => {
+    if (aiShortSummary) {
+      // Return the short summary as is, trim any potential periods added by the LLM
+      return aiShortSummary.replace(/\.$/, '').trim();
+    }
     const cond = weather.condition.toLowerCase();
     switch (cond) {
       case 'rainy':
@@ -119,13 +124,11 @@ export default function CurrentWeather({ weather, theme }: CurrentWeatherProps) 
             </div>
             
             {/* Condition badge & status */}
-            <div className="flex flex-col mt-2.5">
-              <div className="flex">
-                <span className={`px-3.5 py-1.5 text-sm md:text-base font-mono uppercase font-black tracking-widest leading-none rounded-sm ${isDark ? 'bg-white text-black' : 'bg-black text-white'}`}>
-                  {capitalize(weather.condition)}
-                </span>
-              </div>
-              <span className={`text-sm md:text-base font-sans font-black tracking-wide mt-2.5 leading-snug ${isDark ? 'text-white' : 'text-black'}`}>
+            <div className="flex flex-row items-center gap-4 mt-2.5 flex-wrap">
+              <span className={`px-3.5 py-1.5 text-sm md:text-base font-mono uppercase font-black tracking-widest leading-none rounded-sm ${isDark ? 'bg-white text-black' : 'bg-black text-white'}`}>
+                {capitalize(weather.condition)}
+              </span>
+              <span className={`text-sm md:text-base font-sans font-black tracking-wide leading-snug ${isDark ? 'text-white' : 'text-black'}`}>
                 {getNextUpMessage()}
               </span>
             </div>

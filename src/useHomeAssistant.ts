@@ -71,6 +71,8 @@ export function useHomeAssistant(activeScenario: string) {
         const eWifi = env.HA_ENTITY_WIFI || (window as any).EINK_ENV?.HA_ENTITY_WIFI;
         const ePm25 = env.HA_ENTITY_PM25 || (window as any).EINK_ENV?.HA_ENTITY_PM25;
         const eLqi = env.HA_ENTITY_LQI || (window as any).EINK_ENV?.HA_ENTITY_LQI;
+        const eSummary = env.HA_ENTITY_WEATHER_SUMMARY || (window as any).EINK_ENV?.HA_ENTITY_WEATHER_SUMMARY;
+        const eShortSummary = env.HA_ENTITY_WEATHER_SHORT_SUMMARY || (window as any).EINK_ENV?.HA_ENTITY_WEATHER_SHORT_SUMMARY;
 
         // Helper to fetch forecast
         const fetchForecast = async (entityId: string, type: 'hourly' | 'daily') => {
@@ -87,7 +89,7 @@ export function useHomeAssistant(activeScenario: string) {
 
         // Fetch all requested entities and forecasts
         const [
-          weatherState, hourlyForecast, dailyForecast, inTempState, inHumState, batteryState, wifiState, pm25State, lqiState
+          weatherState, hourlyForecast, dailyForecast, inTempState, inHumState, batteryState, wifiState, pm25State, lqiState, summaryState, shortSummaryState
         ] = await Promise.all([
           fetchEntity(eWeather),
           fetchForecast(eWeather, 'hourly'),
@@ -97,7 +99,9 @@ export function useHomeAssistant(activeScenario: string) {
           fetchEntity(eBattery),
           fetchEntity(eWifi),
           fetchEntity(ePm25),
-          fetchEntity(eLqi)
+          fetchEntity(eLqi),
+          fetchEntity(eSummary),
+          fetchEntity(eShortSummary)
         ]);
 
         if (!mounted) return;
@@ -191,6 +195,18 @@ export function useHomeAssistant(activeScenario: string) {
           } else if (lqiState) {
             newData.airQuality.lqiLabel = lqiState.state;
           }
+        }
+
+        if (summaryState) {
+          if (summaryState.attributes?.full_summary) {
+            newData.aiSummary = summaryState.attributes.full_summary;
+          } else if (summaryState.state && summaryState.state !== 'unknown') {
+            newData.aiSummary = summaryState.state;
+          }
+        }
+
+        if (shortSummaryState && shortSummaryState.state && shortSummaryState.state !== 'unknown') {
+          newData.aiShortSummary = shortSummaryState.state;
         }
 
         setData(newData);

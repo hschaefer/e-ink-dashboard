@@ -54,6 +54,8 @@ export interface DashboardData {
   status: SystemStatus;
   pollen: PollenInfo[];
   airQuality?: AirQuality;
+  aiSummary?: string;
+  aiShortSummary?: string;
 }
 
 export type EInkTheme = 'light' | 'dark';

@@ -54,22 +54,28 @@ export default function WeatherSummary({ data, theme }: WeatherSummaryProps) {
       }`}>
         <div className="flex flex-col gap-4 text-sm md:text-base font-sans font-medium leading-relaxed text-current">
           
-          {/* Today section with inline tag */}
-          <p>
-            <span className="inline-flex items-center justify-center h-5 px-2 py-0.5 rounded text-[10px] font-mono uppercase tracking-wider font-extrabold bg-black text-white mr-2 select-none align-middle">
-              Today
-            </span>
-            is mostly {todayCond} ({todayTemp}°C). {todayPrecip}{todayWind}
-          </p>
+          {data.aiSummary ? (
+            <p className="whitespace-pre-wrap">{data.aiSummary}</p>
+          ) : (
+            <>
+              {/* Today section with inline tag */}
+              <p>
+                <span className="inline-flex items-center justify-center h-5 px-2 py-0.5 rounded text-[10px] font-mono uppercase tracking-wider font-extrabold bg-black text-white mr-2 select-none align-middle">
+                  Today
+                </span>
+                is mostly {todayCond} ({todayTemp}°C). {todayPrecip}{todayWind}
+              </p>
 
-          {/* Tomorrow section with inline tag */}
-          {tomorrow && (
-            <p className="pt-3 border-t-2 border-dashed border-neutral-400 dark:border-neutral-700">
-              <span className="inline-flex items-center justify-center h-5 px-2 py-0.5 rounded text-[10px] font-mono uppercase tracking-wider font-extrabold bg-black text-white mr-2 select-none align-middle">
-                Tomorrow
-              </span>
-              transitions to {tomorrowText}
-            </p>
+              {/* Tomorrow section with inline tag */}
+              {tomorrow && (
+                <p className="pt-3 border-t-2 border-dashed border-neutral-400 dark:border-neutral-700">
+                  <span className="inline-flex items-center justify-center h-5 px-2 py-0.5 rounded text-[10px] font-mono uppercase tracking-wider font-extrabold bg-black text-white mr-2 select-none align-middle">
+                    Tomorrow
+                  </span>
+                  transitions to {tomorrowText}
+                </p>
+              )}
+            </>
           )}
           
         </div>

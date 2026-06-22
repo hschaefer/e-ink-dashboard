@@ -99,7 +99,7 @@ export default function App() {
             {/* Current Weather & Summary grouped with a tighter gap */}
             <div className="flex flex-col gap-4">
               {/* Current Weather Module */}
-              <CurrentWeather weather={currentData.weather} theme={theme} />
+              <CurrentWeather weather={currentData.weather} theme={theme} aiShortSummary={currentData.aiShortSummary} />
 
               {/* Weather Summary */}
               <WeatherSummary data={currentData} theme={theme} />
