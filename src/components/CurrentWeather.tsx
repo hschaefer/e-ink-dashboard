@@ -48,16 +48,13 @@ export default function CurrentWeather({ weather, theme }: CurrentWeatherProps) 
     const formattedMinutes = String(roundedDate.getMinutes()).padStart(2, '0');
     const timeString = `${formattedHours}:${formattedMinutes}`;
     
-    const dateString = roundedDate.toLocaleDateString('en-US', { 
-      weekday: 'short', 
-      month: 'short', 
-      day: 'numeric' 
-    }).toUpperCase();
+    const weekdayString = roundedDate.toLocaleDateString('en-US', { weekday: 'long' }).toUpperCase();
+    const dateDetailString = `${roundedDate.getDate()}. ${roundedDate.toLocaleDateString('en-US', { month: 'long' }).toUpperCase()}`;
 
-    return { timeString, dateString };
+    return { timeString, weekdayString, dateDetailString };
   };
 
-  const { timeString, dateString } = getRoundedTimeAndDate();
+  const { timeString, weekdayString, dateDetailString } = getRoundedTimeAndDate();
 
   // Determine what is coming next based on the weather condition
   const getNextUpMessage = () => {
@@ -83,7 +80,7 @@ export default function CurrentWeather({ weather, theme }: CurrentWeatherProps) 
   return (
     <div className="flex flex-col gap-6 select-none">
       {/* 1. Timepiece & Status Header */}
-      <div className={`p-5 border-2 border-black dark:border-white rounded-lg flex flex-col sm:flex-row sm:items-center justify-between gap-4 ${isDark ? 'bg-neutral-950 text-white' : 'bg-neutral-50 text-black'}`}>
+      <div className={`p-5 rounded-lg flex flex-col sm:flex-row sm:items-center justify-between gap-4 ${isDark ? 'bg-neutral-950 text-white' : 'bg-neutral-50 text-black'}`}>
         <div className="flex flex-col">
           <div className="flex items-baseline gap-2">
             <span className="text-6xl md:text-7xl font-mono font-black tracking-tight tabular-nums leading-none">
@@ -93,8 +90,11 @@ export default function CurrentWeather({ weather, theme }: CurrentWeatherProps) 
         </div>
         
         <div className="flex flex-col text-left sm:text-right justify-center">
-          <span className="text-lg md:text-xl font-sans font-black tracking-wide uppercase leading-none">
-            {dateString}
+          <span className="text-base md:text-lg font-sans font-black tracking-wide uppercase leading-tight">
+            {weekdayString}
+          </span>
+          <span className="text-sm md:text-base font-sans font-medium tracking-wide uppercase leading-tight opacity-75">
+            {dateDetailString}
           </span>
         </div>
       </div>
@@ -125,7 +125,7 @@ export default function CurrentWeather({ weather, theme }: CurrentWeatherProps) 
                   {capitalize(weather.condition)}
                 </span>
               </div>
-              <span className="text-sm md:text-base font-sans font-black tracking-wide mt-2.5 text-black dark:text-white leading-snug">
+              <span className={`text-sm md:text-base font-sans font-black tracking-wide mt-2.5 leading-snug ${isDark ? 'text-white' : 'text-black'}`}>
                 {getNextUpMessage()}
               </span>
             </div>
