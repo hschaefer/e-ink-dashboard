@@ -52,14 +52,14 @@ export default function WeatherSummary({ data, theme }: WeatherSummaryProps) {
       {/* Narrative Container Block - matches table styling */}
       <div className={`p-5 rounded-lg border ${
         isDark 
-          ? 'bg-neutral-900 border-neutral-800 text-white shadow-neutral-950/20' 
-          : 'bg-neutral-100 border-neutral-200 text-black shadow-neutral-100/50'
+          ? 'bg-transparent border-neutral-800 text-white shadow-neutral-950/20' 
+          : 'bg-transparent border-neutral-200 text-black shadow-neutral-100/50'
       }`}>
-        <div className="flex flex-col gap-4 text-sm md:text-base font-sans font-medium leading-relaxed text-neutral-800 dark:text-neutral-200">
+        <div className="flex flex-col gap-4 text-sm md:text-base font-sans font-medium leading-relaxed text-black">
           
           {/* Today section with inline tag */}
           <p>
-            <span className="inline-flex items-center justify-center h-5 px-2 py-0.5 rounded text-[10px] font-mono uppercase tracking-wider font-extrabold bg-neutral-950 text-white dark:bg-neutral-50 dark:text-black mr-2 select-none align-middle">
+            <span className="inline-flex items-center justify-center h-5 px-2 py-0.5 rounded text-[10px] font-mono uppercase tracking-wider font-extrabold bg-black text-white mr-2 select-none align-middle">
               Today
             </span>
             is mostly {todayCond} ({todayTemp}°C). {todayPrecip}{todayWind}
@@ -68,7 +68,7 @@ export default function WeatherSummary({ data, theme }: WeatherSummaryProps) {
           {/* Tomorrow section with inline tag */}
           {tomorrow && (
             <p className="pt-3 border-t border-dashed border-neutral-300/60 dark:border-neutral-800/60">
-              <span className="inline-flex items-center justify-center h-5 px-2 py-0.5 rounded text-[10px] font-mono uppercase tracking-wider font-extrabold bg-neutral-950 text-white dark:bg-neutral-50 dark:text-black mr-2 select-none align-middle">
+              <span className="inline-flex items-center justify-center h-5 px-2 py-0.5 rounded text-[10px] font-mono uppercase tracking-wider font-extrabold bg-black text-white mr-2 select-none align-middle">
                 Tomorrow
               </span>
               transitions to {tomorrowText}

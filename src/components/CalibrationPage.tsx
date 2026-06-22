@@ -18,8 +18,30 @@ interface CalibrationPageProps {
 
 type ModeType = 'grid' | 'vertical' | 'horizontal' | 'checkerboard' | 'typography';
 
+const EINK_LEVELS = [
+  { hex: '#000000', byteVal: 0, percent: 0 },
+  { hex: '#222222', byteVal: 34, percent: 13 },
+  { hex: '#444444', byteVal: 68, percent: 27 },
+  { hex: '#666666', byteVal: 102, percent: 40 },
+  { hex: '#AAAAAA', byteVal: 170, percent: 67 },
+  { hex: '#FFFFFF', byteVal: 255, percent: 100 }
+];
+
+function getNearestEInkColor(byteVal: number) {
+  let nearest = EINK_LEVELS[0];
+  let minDiff = Math.abs(byteVal - nearest.byteVal);
+  for (let i = 1; i < EINK_LEVELS.length; i++) {
+    const diff = Math.abs(byteVal - EINK_LEVELS[i].byteVal);
+    if (diff < minDiff) {
+      minDiff = diff;
+      nearest = EINK_LEVELS[i];
+    }
+  }
+  return nearest;
+}
+
 export default function CalibrationPage({ onBack, currentTheme }: CalibrationPageProps) {
-  const [steps, setSteps] = useState<number>(16);
+  const [steps, setSteps] = useState<number>(6);
   const [mode, setMode] = useState<ModeType>('grid');
   const [isInverted, setIsInverted] = useState<boolean>(false);
   const [customText, setCustomText] = useState<string>("Quick brown fox jumps over the lazy dog");
@@ -37,22 +59,32 @@ export default function CalibrationPage({ onBack, currentTheme }: CalibrationPag
 
   // Generate steps from 0 to N-1
   const listItems = Array.from({ length: steps }, (_, i) => {
-    // If inverted, reverse the index progression
+    if (steps === 6) {
+      // Direct mapping to the 6 physical e-ink levels
+      const item = isInverted ? EINK_LEVELS[5 - i] : EINK_LEVELS[i];
+      return {
+        index: i,
+        displayIndex: isInverted ? 5 - i : i,
+        hex: item.hex,
+        percent: item.percent,
+        byteVal: item.byteVal,
+        isDark: item.byteVal < 128
+      };
+    }
+
+    // Otherwise snap any intermediate calculated colors to the calibrated ones
     const index = isInverted ? steps - 1 - i : i;
     const ratio = index / (steps - 1 || 1);
-    
     const byteVal = Math.round(ratio * 255);
-    const hexPart = byteVal.toString(16).padStart(2, '0').toUpperCase();
-    const hex = `#${hexPart}${hexPart}${hexPart}`;
-    const percent = Math.round(ratio * 100);
-    
+    const snapped = getNearestEInkColor(byteVal);
+
     return {
       index: i,
       displayIndex: index,
-      hex,
-      percent,
-      byteVal,
-      isDark: byteVal < 128
+      hex: snapped.hex,
+      percent: snapped.percent,
+      byteVal: snapped.byteVal,
+      isDark: snapped.byteVal < 128
     };
   });
 
@@ -60,7 +92,7 @@ export default function CalibrationPage({ onBack, currentTheme }: CalibrationPag
     <div className="min-h-screen w-full bg-neutral-950 text-white font-sans flex flex-col justify-between select-none relative">
 
       {/* HEADER BAR */}
-      <header className="border-b border-neutral-800 bg-neutral-900/50 backdrop-blur px-6 py-4 flex flex-col md:flex-row md:items-center justify-between gap-4 z-10">
+      <header className="border-b border-neutral-800 bg-neutral-900 px-6 py-4 flex flex-col md:flex-row md:items-center justify-between gap-4 z-10">
         <div className="flex items-center gap-3">
           <button 
             onClick={onBack}
@@ -71,7 +103,7 @@ export default function CalibrationPage({ onBack, currentTheme }: CalibrationPag
           </button>
           <div>
             <div className="flex items-center gap-2">
-              <span className="text-[10px] font-mono uppercase bg-emerald-950 text-emerald-400 border border-emerald-800 px-1.5 py-0.5 rounded font-bold tracking-widest">
+              <span className="text-[10px] font-mono uppercase bg-neutral-800 text-neutral-200 border border-neutral-700 px-1.5 py-0.5 rounded font-bold tracking-widest">
                 E-INK TOOL
               </span>
               <h1 className="text-lg font-display font-medium">Display Calibration Panel</h1>
@@ -158,7 +190,7 @@ export default function CalibrationPage({ onBack, currentTheme }: CalibrationPag
             <div className="flex items-center gap-2">
               <span className="text-xs font-mono font-bold text-neutral-500 uppercase">Levels:</span>
               <div className="flex bg-neutral-950 border border-neutral-800 rounded overflow-hidden">
-                {[4, 8, 16, 32].map((lv) => (
+                {[6, 4, 8, 16, 32].map((lv) => (
                   <button
                     key={lv}
                     onClick={() => setSteps(lv)}
@@ -168,7 +200,7 @@ export default function CalibrationPage({ onBack, currentTheme }: CalibrationPag
                         : 'text-neutral-400 hover:text-white'
                     }`}
                   >
-                    {lv}
+                    {lv === 6 ? '6 (Calibrated)' : lv}
                   </button>
                 ))}
               </div>
@@ -178,7 +210,7 @@ export default function CalibrationPage({ onBack, currentTheme }: CalibrationPag
               onClick={() => setIsInverted(!isInverted)}
               className="flex items-center gap-1 bg-neutral-900 border border-neutral-800 hover:bg-neutral-800 hover:text-white text-xs font-mono px-2.5 py-1 rounded transition text-neutral-400"
             >
-              {isInverted ? <Sun size={12} className="text-amber-400" /> : <Moon size={12} />}
+              {isInverted ? <Sun size={12} className="text-neutral-200" /> : <Moon size={12} />}
               {isInverted ? 'W → B (Normal)' : 'B → W (Inverted)'}
             </button>
           </div>
@@ -200,13 +232,13 @@ export default function CalibrationPage({ onBack, currentTheme }: CalibrationPag
                 {/* Luminance indicator at top */}
                 <div className="flex items-center justify-between w-full">
                   <span 
-                    style={{ color: item.isDark ? '#F5F5F5' : '#171717' }} 
+                    style={{ color: item.isDark ? '#FFFFFF' : '#222222' }} 
                     className="text-[10px] font-mono leading-none tracking-tight font-extrabold"
                   >
                     L: {item.percent}%
                   </span>
                   <span 
-                    style={{ color: item.isDark ? '#D4D4D4' : '#525252' }} 
+                    style={{ color: item.isDark ? '#AAAAAA' : '#444444' }} 
                     className="text-[9px] font-mono leading-none tracking-tight"
                   >
                     #{item.displayIndex}
@@ -223,13 +255,13 @@ export default function CalibrationPage({ onBack, currentTheme }: CalibrationPag
                   </span>
                   <div className="flex justify-between items-center">
                     <span 
-                      style={{ color: item.isDark ? '#A3A3A3' : '#404040' }} 
+                      style={{ color: item.isDark ? '#AAAAAA' : '#444444' }} 
                       className="text-[9px] font-mono font-medium leading-none"
                     >
                       D: {100 - item.percent}%
                     </span>
                     <span 
-                      style={{ color: item.isDark ? '#D4D4D4' : '#525252' }} 
+                      style={{ color: item.isDark ? '#AAAAAA' : '#444444' }} 
                       className="text-[9px] font-mono leading-none font-bold"
                     >
                       {item.byteVal}d

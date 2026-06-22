@@ -5,7 +5,6 @@ import CurrentWeather from './components/CurrentWeather';
 import WeatherSummary from './components/WeatherSummary';
 import CombinedForecastChart from './components/CombinedForecastChart';
 import DailyForecastList from './components/DailyForecastList';
-import PollenPanel from './components/PollenPanel';
 import CalibrationPage from './components/CalibrationPage';
 import { 
   Battery, 
@@ -88,7 +87,7 @@ export default function App() {
         {/* TWO COLUMN GRID LAYOUT (No borders, massive gap for visual partition) */}
         <div className="grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-16">
           
-          {/* LEFT COLUMN: 5/12 grid columns - Current Weather & Hourly Forecast */}
+          {/* LEFT COLUMN: 5/12 grid columns - Current Weather & Summary */}
           <div className="md:col-span-5 flex flex-col gap-10">
             {/* Current Weather & Summary grouped with a tighter gap */}
             <div className="flex flex-col gap-4">
@@ -98,8 +97,11 @@ export default function App() {
               {/* Weather Summary */}
               <WeatherSummary data={currentData} theme={theme} />
             </div>
+          </div>
 
-            {/* Hourly Forecast Chart moved to bottom left */}
+          {/* RIGHT COLUMN: 7/12 grid columns - Hourly Forecast & 5-Day Forecast */}
+          <div className="md:col-span-7 flex flex-col gap-10">
+            {/* Hourly Forecast Chart */}
             <div className="w-full">
               <CombinedForecastChart 
                 data={currentData.hourly} 
@@ -107,10 +109,7 @@ export default function App() {
                 currentCondition={currentData.weather.condition}
               />
             </div>
-          </div>
 
-          {/* RIGHT COLUMN: 7/12 grid columns - 5-Day forecast list & Active Pollen */}
-          <div className="md:col-span-7 flex flex-col gap-10">
             {/* 5-Day Forecast List */}
             <div className="w-full">
               <DailyForecastList 
@@ -118,15 +117,6 @@ export default function App() {
                 theme={theme} 
                 currentTemp={currentData.weather.currentTemp}
                 currentCondition={currentData.weather.condition}
-              />
-            </div>
-
-            {/* Active Airborne Pollen Panel */}
-            <div className="w-full">
-              <PollenPanel 
-                pollenData={currentData.pollen || []} 
-                airQuality={currentData.airQuality} 
-                theme={theme} 
               />
             </div>
           </div>

@@ -46,8 +46,8 @@ export default function DailyForecastList({
       {/* Forecast Container Block */}
       <div className={`p-5 rounded-lg border ${
         isDark 
-          ? 'bg-neutral-900 border-neutral-800 text-white shadow-neutral-950/20' 
-          : 'bg-neutral-100 border-neutral-200 text-black shadow-neutral-100/50'
+          ? 'bg-transparent border-neutral-800 text-white shadow-neutral-950/20' 
+          : 'bg-transparent border-neutral-200 text-black shadow-neutral-100/50'
       }`}>
         {/* Table Header Row aligned to column system for high professional polish */}
         <div className="grid grid-cols-12 items-center gap-1.5 pb-2 mb-3 border-b border-neutral-300 dark:border-neutral-800 text-[10px] font-mono uppercase font-bold tracking-wider opacity-60">
