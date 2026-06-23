@@ -125,7 +125,7 @@ export default function CombinedForecastChart({ data, theme, currentCondition }:
     <div className="w-full flex flex-col gap-5 select-none" id="hourly-forecast-unified-section">
       
       {/* HEADER - No view toggles, Unified Hybrid baked as the default */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-1 border-b-2 border-current">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-5 pb-1 border-b-2 border-current">
         <span className="text-sm font-mono tracking-widest uppercase font-extrabold flex items-center gap-2">
           <Clock size={16} strokeWidth={3} />
           Stündliche Vorhersage
@@ -142,14 +142,14 @@ export default function CombinedForecastChart({ data, theme, currentCondition }:
               {data.map((item) => (
                 <div key={item.time} className="text-center">
                   <span className={`text-lg sm:text-xl font-mono font-black tracking-tight ${isDark ? 'text-white' : 'text-black'}`}>
-                    {item.time.split(':')[0]}
+                    {item.time.split(':')[0]}h
                   </span>
                 </div>
               ))}
             </div>
 
             {/* Row B: Continuous Weather Ribbon */}
-            <div className={`grid grid-cols-8 gap-0 h-10 border ${isDark ? 'border-neutral-800' : 'border-neutral-300'} rounded-md overflow-hidden`}>
+            <div className={`grid grid-cols-8 gap-0 h-12 border ${isDark ? 'border-neutral-800' : 'border-neutral-300'} rounded-md overflow-hidden`}>
               {data.map((item) => {
                 const condition = getHourlyCondition(item.rainProbability);
                 const style = getSegmentStyle(condition, isDark);
@@ -162,7 +162,7 @@ export default function CombinedForecastChart({ data, theme, currentCondition }:
                   >
                     <WeatherIcon 
                       condition={condition} 
-                      size={22} 
+                      size={32} 
                       strokeWidth={2.5} 
                     />
                   </div>
@@ -175,48 +175,10 @@ export default function CombinedForecastChart({ data, theme, currentCondition }:
               {data.map((item) => (
                 <div key={item.time} className="flex flex-col items-center justify-center">
                   <span className="text-sm sm:text-base font-sans font-black tracking-tight tabular-nums text-current">
-                    {item.temp.toFixed(1)}°
+                    {Math.round(item.temp)}°
                   </span>
                 </div>
               ))}
-            </div>
-
-            {/* Row D: Precipitation Block Matrix (0% shaded white/invisible instead of gray) */}
-            <div className="grid grid-cols-8 gap-0 pt-3 border-t-2 border-dashed border-neutral-400 dark:border-neutral-700 text-center">
-              {data.map((item) => {
-                const hasRain = item.rainProbability > 0;
-                const rainMl = hasRain ? (item.rainProbability * 0.05).toFixed(1) + ' mm' : '0.0 mm';
-                
-                return (
-                  <div key={item.time} className="flex flex-col items-center justify-between">
-                    {/* Percent Tag */}
-                    <span className={`text-xs sm:text-sm font-mono font-black tracking-tight leading-none transition-all duration-150 ${hasRain ? (isDark ? 'text-white' : 'text-black') : 'opacity-0 select-none'}`}>
-                      {item.rainProbability}%
-                    </span>
-
-                    {/* Micro Fill Bar proportional to probability */}
-                    <div className="flex items-end justify-center h-8 my-1.5 w-full">
-                      <div 
-                        className={`w-3 rounded-t-sm transition-all duration-300 ${
-                          hasRain 
-                            ? (isDark ? 'bg-white' : 'bg-black') 
-                            : (isDark ? 'bg-transparent' : 'bg-white')
-                        }`}
-                        style={{ 
-                          height: `${Math.max(2, (item.rainProbability / 100) * 26)}px`,
-                          opacity: hasRain ? 0.95 : 0
-                        }}
-                        id={`rain-bar-${item.time}`}
-                      />
-                    </div>
-
-                    {/* Volume */}
-                    <span className={`text-xs sm:text-sm font-mono font-black tracking-tight leading-none transition-all duration-150 ${hasRain ? (isDark ? 'text-white' : 'text-black') : 'opacity-0 select-none'}`}>
-                      {rainMl}
-                    </span>
-                  </div>
-                );
-              })}
             </div>
 
           </div>
