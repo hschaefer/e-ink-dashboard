@@ -47,16 +47,16 @@ export default function DailyForecastList({
           : 'bg-transparent text-black shadow-neutral-100/50'
       }`}>
         {/* Table Header Row aligned to column system for high professional polish */}
-        <div className={`grid grid-cols-12 items-center gap-1.5 pb-2 mb-3 border-b-2 border-neutral-400 dark:border-neutral-700 text-xs sm:text-sm font-mono uppercase font-black tracking-tight ${isDark ? 'text-white' : 'text-black'}`}>
+        <div className={`grid grid-cols-12 items-center gap-1.5 pb-2 mb-3 border-b-2 border-neutral-400 dark:border-neutral-700 text-sm font-mono uppercase font-black tracking-tight ${isDark ? 'text-white' : 'text-black'}`}>
           <div className="col-span-2">Tag</div>
-          <div className="col-span-1">Ansicht</div>
+          <div className="col-span-1"></div>
           <div className="col-span-3">Regen-Skala</div>
           <div className="col-span-1 text-right pr-1">Min</div>
-          <div className="col-span-4 text-center">Temp.-Bereich</div>
+          <div className="col-span-4 text-center"></div>
           <div className="col-span-1 pl-1">Max</div>
         </div>
 
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-3">
           {forecasts.map((fc, idx) => {
             // High-Low Range Positions Inside Global Graph Frame
             const leftPercent = ((fc.tempMin - globalMin) / globalSpan) * 100;
@@ -72,10 +72,10 @@ export default function DailyForecastList({
             return (
               <div 
                 key={fc.day} 
-                className="grid grid-cols-12 items-center gap-1.5 py-0.5 border-b-2 border-dashed border-neutral-300 dark:border-neutral-700 last:border-0 pb-3 last:pb-0"
+                className="grid grid-cols-12 items-center gap-1.5 py-0.5 border-b-2 border-dashed border-neutral-300 dark:border-neutral-700 last:border-0 pb-2.5 last:pb-0"
               >
                 {/* 1. Day Description */}
-                <div className="col-span-2 text-sm font-sans font-extrabold tracking-tight">
+                <div className="col-span-2 text-sm sm:text-base font-sans font-extrabold tracking-tight">
                   {fc.day}
                 </div>
 
@@ -84,15 +84,15 @@ export default function DailyForecastList({
                   <span className={isDark ? 'text-white' : 'text-black'}>
                     <WeatherIcon 
                       condition={fc.condition} 
-                      size={26} 
+                      size={30} 
                       strokeWidth={2.5} 
                     />
                   </span>
                 </div>
 
                 {/* 3. Rain Level & Intensity Scale (similar to the active pollen levels) */}
-                <div className="col-span-3 flex items-center justify-between gap-1 w-full overflow-hidden" title={`Rain probability: ${fc.rainProbability}%`}>
-                  <span className={`text-xs sm:text-sm font-mono font-black tracking-tight select-none shrink-0 ${isDark ? 'text-white' : 'text-black'}`}>
+                <div className="col-span-3 flex items-center justify-end gap-2 sm:gap-3 w-full overflow-hidden" title={`Rain probability: ${fc.rainProbability}%`}>
+                  <span className={`text-sm sm:text-base font-mono font-black tracking-tight select-none shrink-0 ${isDark ? 'text-white' : 'text-black'}`}>
                     {fc.rainProbability}%
                   </span>
                   <div className="flex gap-0.5 shrink-0 select-none">
@@ -101,7 +101,7 @@ export default function DailyForecastList({
                       return (
                         <div 
                           key={segment}
-                          className={`w-1.5 h-3 border ${
+                          className={`w-2 h-3.5 border ${
                             filled 
                               ? (isDark ? 'bg-white border-white' : 'bg-black border-black') 
                               : (isDark ? 'border-neutral-800 bg-neutral-950/50' : 'border-neutral-300 bg-neutral-100')
@@ -113,13 +113,13 @@ export default function DailyForecastList({
                 </div>
 
                 {/* 4. Minimum Forecast Temperature */}
-                <div className={`col-span-1 text-right text-xs sm:text-sm font-mono font-black tracking-tight pr-1 select-all ${isDark ? 'text-white' : 'text-black'}`}>
+                <div className={`col-span-1 text-right text-sm sm:text-base font-mono font-black tracking-tight pr-1 select-all ${isDark ? 'text-white' : 'text-black'}`}>
                   {fc.tempMin}°
                 </div>
 
                 {/* 5. Horizontal Temperature Range Slider */}
                 <div className="col-span-4 px-1.5 bg-transparent">
-                  <div className={`h-3 w-full rounded-full relative flex items-center border transition-all duration-150 ${
+                  <div className={`h-4 w-full rounded-full relative flex items-center border transition-all duration-150 ${
                     isDark 
                       ? 'bg-neutral-800 border-neutral-700' 
                       : 'bg-neutral-200 border-neutral-300'
@@ -137,7 +137,7 @@ export default function DailyForecastList({
                     {/* Today's Cursor Indicator Dot displaying location of active temp */}
                     {idx === 0 && currentTemp !== undefined && (
                       <div 
-                        className={`absolute w-3.5 h-3.5 rounded-full shadow-md transform -translate-x-1.75 z-20 hover:scale-110 active:scale-95 transition-all duration-300 ${
+                        className={`absolute w-4 h-4 rounded-full shadow-md transform -translate-x-2 z-20 hover:scale-110 active:scale-95 transition-all duration-300 ${
                           isDark 
                             ? 'bg-black border-2 border-white' 
                             : 'bg-white border-2 border-black'
@@ -151,7 +151,7 @@ export default function DailyForecastList({
                 </div>
 
                 {/* 6. Maximum Forecast Temperature */}
-                <div className={`col-span-1 text-left text-xs sm:text-sm font-mono font-black tracking-tight pl-1 select-all ${isDark ? 'text-white' : 'text-black'}`}>
+                <div className={`col-span-1 text-left text-sm sm:text-base font-mono font-black tracking-tight pl-1 select-all ${isDark ? 'text-white' : 'text-black'}`}>
                   {fc.tempMax}°
                 </div>
 
