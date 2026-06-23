@@ -61,12 +61,12 @@ export default function WeatherSummary({ data, theme }: WeatherSummaryProps) {
       </div>
 
       {/* Narrative Container Block - matches table styling */}
-      <div className={`p-5 rounded-lg ${
+      <div className={`py-5 rounded-lg ${
         isDark 
           ? 'bg-transparent text-white shadow-neutral-950/20' 
           : 'bg-transparent text-black shadow-neutral-100/50'
       }`}>
-        <div className="flex flex-col gap-4 text-sm md:text-base font-sans font-medium leading-relaxed text-current">
+        <div className="flex flex-col gap-4 text-xl md:text-2xl font-sans font-medium leading-relaxed text-current">
           
           {data.aiSummary ? (
             <div className="[&>p]:mb-3 [&>p:last-child]:mb-0 [&>strong]:font-black [&>ul]:list-disc [&>ul]:pl-5 [&>ul]:mb-3 [&>ul:last-child]:mb-0 [&>em]:italic">

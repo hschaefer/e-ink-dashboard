@@ -141,8 +141,8 @@ export default function CombinedForecastChart({ data, theme, currentCondition }:
             <div className="grid grid-cols-8 gap-0 mb-3">
               {data.map((item) => (
                 <div key={item.time} className="text-center">
-                  <span className={`text-xs sm:text-sm font-mono font-black tracking-tight ${isDark ? 'text-white' : 'text-black'}`}>
-                    {item.time}
+                  <span className={`text-lg sm:text-xl font-mono font-black tracking-tight ${isDark ? 'text-white' : 'text-black'}`}>
+                    {item.time.split(':')[0]}
                   </span>
                 </div>
               ))}
