@@ -3,6 +3,29 @@ import { WeatherData } from "../types";
 import WeatherIcon from "./WeatherIcon";
 import { Thermometer, Droplets, Compass } from "lucide-react";
 
+const getWindArrow = (dir: string): string => {
+  const cleanDir = dir.toUpperCase().trim();
+  switch (cleanDir) {
+    case "N": return "↑";
+    case "NNE":
+    case "NE":
+    case "ENE": return "↗";
+    case "E": return "→";
+    case "ESE":
+    case "SE":
+    case "SSE": return "↘";
+    case "S": return "↓";
+    case "SSW":
+    case "SW":
+    case "WSW": return "↙";
+    case "W": return "←";
+    case "WNW":
+    case "NW":
+    case "NNW": return "↖";
+    default: return "";
+  }
+};
+
 interface CurrentWeatherProps {
   weather: WeatherData;
   theme: "light" | "dark";
@@ -178,25 +201,27 @@ export default function CurrentWeather({
               Außen
             </span>
             <div className="flex flex-col gap-2.5 mt-1">
-              <div className="flex items-center gap-2">
-                <Droplets size={16} strokeWidth={2.5} />
+              <div className="flex items-center gap-2 w-full">
+                <Droplets size={18} strokeWidth={2.5} />
                 <div className="flex justify-between items-baseline w-full">
-                  <span className="text-xs font-sans font-black uppercase">
+                  <span className="text-sm font-sans font-black uppercase">
                     humidity
                   </span>
-                  <span className="text-sm font-mono font-black tabular-nums">
+                  <span className="text-base font-mono font-black tabular-nums">
                     {weather.humidity}%
                   </span>
                 </div>
               </div>
-              <div className="flex items-center gap-2">
-                <Compass size={16} strokeWidth={2.5} />
+              <div className="flex items-center gap-2 w-full">
+                <Compass size={18} strokeWidth={2.5} />
                 <div className="flex justify-between items-baseline w-full">
-                  <span className="text-xs font-sans font-black uppercase">
+                  <span className="text-sm font-sans font-black uppercase">
                     Wind
                   </span>
-                  <span className="text-sm font-mono font-black uppercase tabular-nums">
-                    {weather.windSpeed} km/h {weather.windDirection}
+                  <span className="text-base font-mono font-black uppercase tabular-nums flex items-baseline gap-1">
+                    {weather.windSpeed}
+                    <span className="text-sm font-sans font-bold opacity-75 lowercase">kmh</span>
+                    {getWindArrow(weather.windDirection)}
                   </span>
                 </div>
               </div>
@@ -218,13 +243,13 @@ export default function CurrentWeather({
               </span>
             </div>
 
-            <div className="mt-3 flex items-center gap-2">
-              <Droplets size={16} strokeWidth={2.5} />
+            <div className="mt-3 flex items-center gap-2 w-full">
+              <Droplets size={18} strokeWidth={2.5} />
               <div className="flex justify-between items-baseline w-full">
-                <span className="text-xs font-mono uppercase tracking-wider font-black">
+                <span className="text-sm font-sans font-black uppercase">
                   humidity
                 </span>
-                <span className="text-sm font-mono font-black tabular-nums">
+                <span className="text-base font-mono font-black tabular-nums">
                   {weather.indoorHumidity}%
                 </span>
               </div>
