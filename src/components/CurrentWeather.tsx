@@ -182,7 +182,7 @@ export default function CurrentWeather({
                 <Droplets size={16} strokeWidth={2.5} />
                 <div className="flex justify-between items-baseline w-full">
                   <span className="text-xs font-sans font-black uppercase">
-                    Luftfeuchtigkeit
+                    humidity
                   </span>
                   <span className="text-sm font-mono font-black tabular-nums">
                     {weather.humidity}%
@@ -218,13 +218,16 @@ export default function CurrentWeather({
               </span>
             </div>
 
-            <div className="mt-3 flex items-center justify-between">
-              <span className="text-[11px] font-mono uppercase tracking-wider font-black">
-                Luftfeuchtigkeit
-              </span>
-              <span className="text-sm font-mono font-black tabular-nums">
-                {weather.indoorHumidity}%
-              </span>
+            <div className="mt-3 flex items-center gap-2">
+              <Droplets size={16} strokeWidth={2.5} />
+              <div className="flex justify-between items-baseline w-full">
+                <span className="text-xs font-mono uppercase tracking-wider font-black">
+                  humidity
+                </span>
+                <span className="text-sm font-mono font-black tabular-nums">
+                  {weather.indoorHumidity}%
+                </span>
+              </div>
             </div>
           </div>
         </div>
