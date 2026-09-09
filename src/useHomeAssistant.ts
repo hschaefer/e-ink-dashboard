@@ -31,6 +31,12 @@ const mapWindDirection = (bearing: number): string => {
   return dirs[(val % 16)];
 };
 
+const format24hTime = (date: Date): string => {
+  const hours = String(date.getHours()).padStart(2, '0');
+  const minutes = String(date.getMinutes()).padStart(2, '0');
+  return `${hours}:${minutes}`;
+};
+
 export function useHomeAssistant(activeScenario: string) {
   const [data, setData] = useState<DashboardData>(mockWeatherData[activeScenario] || mockWeatherData.springShowers);
   const [loading, setLoading] = useState(true);
@@ -120,7 +126,7 @@ export function useHomeAssistant(activeScenario: string) {
           newData.weather.windSpeed = attrs.wind_speed !== undefined ? parseFloat(attrs.wind_speed) : newData.weather.windSpeed;
           newData.weather.windDirection = attrs.wind_bearing !== undefined ? mapWindDirection(parseFloat(attrs.wind_bearing)) : newData.weather.windDirection;
           newData.weather.condition = mapCondition(weatherState.state);
-          newData.weather.lastUpdated = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) + ' HA';
+          newData.weather.lastUpdated = `${format24hTime(new Date())} HA`;
           // we don't always get feelsLike from HA weather entity, keeping base or computing could be done, we keep base for now.
         }
 
@@ -128,7 +134,7 @@ export function useHomeAssistant(activeScenario: string) {
           const forecastData = Object.values(hourlyForecast.service_response)[0] as any;
           if (forecastData && Array.isArray(forecastData.forecast)) {
             newData.hourly = forecastData.forecast.slice(0, 8).map((f: any) => ({
-              time: new Date(f.datetime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+              time: format24hTime(new Date(f.datetime)),
               temp: Math.round(f.temperature),
               rainProbability: f.precipitation_probability || 0
             }));
@@ -141,7 +147,7 @@ export function useHomeAssistant(activeScenario: string) {
             newData.daily = forecastData.forecast.slice(0, 5).map((f: any) => {
               const date = new Date(f.datetime);
               return {
-                day: date.toLocaleDateString([], { weekday: 'short' }),
+                day: date.toLocaleDateString('de-DE', { weekday: 'short' }),
                 tempMin: Math.round(f.templow !== undefined ? f.templow : f.temperature),
                 tempMax: Math.round(f.temperature),
                 condition: mapCondition(f.condition),

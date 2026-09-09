@@ -29,12 +29,26 @@ export default function WeatherSummary({ data, theme }: WeatherSummaryProps) {
   const todayCond = translateCondition(weather.condition);
   const todayTemp = weather.currentTemp.toFixed(1);
   
+  const format24hTime = (timeStr: string): string => {
+    if (!timeStr) return '';
+    const ampmMatch = timeStr.match(/^(\d{1,2})(?::(\d{2}))?\s*(am|pm)/i);
+    if (ampmMatch) {
+      let hours = parseInt(ampmMatch[1], 10);
+      const minutes = ampmMatch[2] || '00';
+      const isPM = ampmMatch[3].toLowerCase() === 'pm';
+      if (isPM && hours < 12) hours += 12;
+      if (!isPM && hours === 12) hours = 0;
+      return `${String(hours).padStart(2, '0')}:${minutes}`;
+    }
+    return timeStr;
+  };
+
   let todayPrecip = '';
   const rainPoints = hourly.filter(h => h.rainProbability > 30);
   if (rainPoints.length > 0) {
     const peakRain = Math.max(...hourly.map(h => h.rainProbability));
     const peakTime = hourly.find(h => h.rainProbability === peakRain)?.time || '';
-    todayPrecip = `Regen wahrscheinlich, Höchstwert von ${peakRain}% um ${peakTime} Uhr.`;
+    todayPrecip = `Regen wahrscheinlich, Höchstwert von ${peakRain}% um ${format24hTime(peakTime)} Uhr.`;
   } else {
     todayPrecip = 'Keine nennenswerten Niederschläge erwartet.';
   }

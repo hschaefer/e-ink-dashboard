@@ -92,6 +92,61 @@ const getSegmentStyle = (condition: string, isDark: boolean) => {
   }
 };
 
+// Helper to format any time string reliably into 24-hour hour format without leading zeros (e.g. "20h", "8h")
+const format24hHour = (timeStr: string): string => {
+  if (!timeStr) return '';
+
+  // 12-hour AM/PM format (e.g., "08:00 PM", "8:00 PM", "8 PM", "12:00 AM")
+  const ampmMatch = timeStr.match(/^(\d{1,2})(?::(\d{2}))?\s*(am|pm)/i);
+  if (ampmMatch) {
+    let hours = parseInt(ampmMatch[1], 10);
+    const isPM = ampmMatch[3].toLowerCase() === 'pm';
+    if (isPM && hours < 12) hours += 12;
+    if (!isPM && hours === 12) hours = 0;
+    return `${hours}h`;
+  }
+
+  // ISO string e.g. "2026-09-09T20:00:00"
+  if (timeStr.includes('T')) {
+    const d = new Date(timeStr);
+    if (!isNaN(d.getTime())) {
+      return `${d.getHours()}h`;
+    }
+  }
+
+  // Standard "HH:MM" (e.g., "20:00", "08:00", "8:00")
+  if (timeStr.includes(':')) {
+    const hours = parseInt(timeStr.split(':')[0].trim(), 10);
+    if (!isNaN(hours)) {
+      return `${hours}h`;
+    }
+  }
+
+  // Standalone number or existing "h" notation (e.g., "20", "20h", "08", "08h")
+  const clean = timeStr.replace(/h$/i, '').trim();
+  const num = parseInt(clean, 10);
+  if (!isNaN(num)) {
+    return `${num}h`;
+  }
+
+  return timeStr;
+};
+
+// Helper to format tooltip time into standard 24h "HH:MM" format
+const format24hTooltipTime = (timeStr: string): string => {
+  if (!timeStr) return '';
+  const ampmMatch = timeStr.match(/^(\d{1,2})(?::(\d{2}))?\s*(am|pm)/i);
+  if (ampmMatch) {
+    let hours = parseInt(ampmMatch[1], 10);
+    const minutes = ampmMatch[2] || '00';
+    const isPM = ampmMatch[3].toLowerCase() === 'pm';
+    if (isPM && hours < 12) hours += 12;
+    if (!isPM && hours === 12) hours = 0;
+    return `${String(hours).padStart(2, '0')}:${minutes}`;
+  }
+  return timeStr;
+};
+
 export default function CombinedForecastChart({ data, theme, currentCondition }: CombinedForecastChartProps) {
   const isDark = theme === 'dark';
   const borderStyle = isDark ? 'border-neutral-800' : 'border-neutral-200';
@@ -142,7 +197,7 @@ export default function CombinedForecastChart({ data, theme, currentCondition }:
               {data.map((item) => (
                 <div key={item.time} className="text-center">
                   <span className={`text-lg sm:text-xl font-mono font-black tracking-tight ${isDark ? 'text-white' : 'text-black'}`}>
-                    {item.time.split(':')[0]}h
+                    {format24hHour(item.time)}
                   </span>
                 </div>
               ))}
@@ -158,7 +213,7 @@ export default function CombinedForecastChart({ data, theme, currentCondition }:
                   <div 
                     key={item.time}
                     className={`flex items-center justify-center h-full ${style.bg} ${style.text} transition-colors`}
-                    title={`${item.time}: ${condition}`}
+                    title={`${format24hTooltipTime(item.time)}: ${condition}`}
                   >
                     <WeatherIcon 
                       condition={condition} 
@@ -174,7 +229,7 @@ export default function CombinedForecastChart({ data, theme, currentCondition }:
             <div className="grid grid-cols-8 gap-0 my-4 text-center">
               {data.map((item) => (
                 <div key={item.time} className="flex flex-col items-center justify-center">
-                  <span className="text-sm sm:text-base font-sans font-black tracking-tight tabular-nums text-current">
+                  <span className="text-lg sm:text-xl font-sans font-black tracking-tight tabular-nums text-current">
                     {Math.round(item.temp)}°
                   </span>
                 </div>
