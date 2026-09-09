@@ -240,7 +240,7 @@ export default function CurrentWeather({
                     Wind
                   </span>
                   <span className="text-base font-mono font-black uppercase tabular-nums flex items-baseline gap-1">
-                    {weather.windSpeed}
+                    {Math.round(weather.windSpeed)}
                     <span className="text-sm font-sans font-bold opacity-75 lowercase">kmh</span>
                     {getWindArrow(weather.windDirection)}
                   </span>
@@ -271,7 +271,7 @@ export default function CurrentWeather({
                   humidity
                 </span>
                 <span className="text-base font-mono font-black tabular-nums">
-                  {weather.indoorHumidity}%
+                  {Math.round(weather.indoorHumidity)}%
                 </span>
               </div>
             </div>
