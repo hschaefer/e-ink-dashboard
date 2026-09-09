@@ -160,10 +160,10 @@ export default function CurrentWeather({
         </div>
 
         <div className="flex flex-col text-left sm:text-right justify-center">
-          <span className="text-2xl md:text-3xl font-sans font-black tracking-wide uppercase leading-tight">
+          <span className="text-2xl md:text-3xl font-sans font-black tracking-wide uppercase leading-tight whitespace-nowrap">
             {weekdayString}
           </span>
-          <span className="text-xl md:text-2xl font-sans font-black tracking-wide uppercase leading-tight">
+          <span className="text-xl md:text-2xl font-sans font-black tracking-wide uppercase leading-tight whitespace-nowrap">
             {dateDetailString}
           </span>
         </div>
@@ -194,7 +194,7 @@ export default function CurrentWeather({
           {/* Row 2, Col 1: Condition Badge */}
           <div className="flex justify-center">
             <span
-              className={`px-3.5 py-1.5 text-sm md:text-base font-mono uppercase font-black tracking-widest leading-none rounded-sm ${isDark ? "bg-white text-black" : "bg-black text-white"}`}
+              className={`px-3.5 py-1.5 text-sm md:text-base font-mono uppercase font-black tracking-widest leading-none rounded-sm whitespace-nowrap ${isDark ? "bg-white text-black" : "bg-black text-white"}`}
             >
               {translateCondition(effectiveCondition)}
             </span>
