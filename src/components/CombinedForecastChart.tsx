@@ -74,13 +74,17 @@ const getSegmentStyle = (condition: string, isDark: boolean) => {
       case 'cloudy':
         return { 
           bg: 'bg-neutral-300 border-r border-neutral-400 last:border-r-0', 
-          text: 'text-black' 
+          text: 'text-white' 
         };
       case 'partly-cloudy':
-      case 'partly-cloudy-night':
         return { 
           bg: 'bg-neutral-200 border-r border-neutral-300 last:border-r-0', 
           text: 'text-black' 
+        };
+      case 'partly-cloudy-night':
+        return { 
+          bg: 'bg-neutral-700', 
+          text: 'text-white border-r border-neutral-800 last:border-r-0' 
         };
       case 'windy':
         return { 
@@ -89,6 +93,11 @@ const getSegmentStyle = (condition: string, isDark: boolean) => {
         };
       case 'clear-night':
       case 'moon':
+      case 'night':
+        return { 
+          bg: 'bg-neutral-700', 
+          text: 'text-white border-r border-neutral-800 last:border-r-0' 
+        };
       case 'sunny':
       default:
         return { 

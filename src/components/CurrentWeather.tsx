@@ -30,12 +30,14 @@ interface CurrentWeatherProps {
   weather: WeatherData;
   theme: "light" | "dark";
   aiShortSummary?: string;
+  isNight?: boolean;
 }
 
 export default function CurrentWeather({
   weather,
   theme,
   aiShortSummary,
+  isNight,
 }: CurrentWeatherProps) {
   const isDark = theme === "dark";
   const [now, setNow] = useState(() => new Date());
@@ -87,19 +89,36 @@ export default function CurrentWeather({
   const { timeString, weekdayString, dateDetailString } =
     getRoundedTimeAndDate();
 
+  const effectiveCondition = (() => {
+    const cond = weather.condition.toLowerCase().trim();
+    if (isNight) {
+      if (cond === 'sunny' || cond === 'clear') {
+        return 'clear-night';
+      }
+      if (cond === 'partly-cloudy' || cond === 'partlycloudy' || cond === 'sunny-intervals') {
+        return 'partly-cloudy-night';
+      }
+    }
+    return cond;
+  })();
+
   const getNextUpMessage = () => {
     if (aiShortSummary) {
       // Return the short summary as is, trim any potential periods added by the LLM
       return aiShortSummary.replace(/\.$/, "").trim();
     }
-    const cond = weather.condition.toLowerCase();
-    switch (cond) {
+    switch (effectiveCondition) {
       case "rainy":
         return "Regen lässt in 1 Std. nach";
       case "cloudy":
         return "Sonnig heute Nachmittag";
       case "sunny":
         return "Klare Sicht heute Nacht";
+      case "clear-night":
+        return "Klare Sicht heute Nacht";
+      case "partly-cloudy":
+      case "partly-cloudy-night":
+        return "Teils bewölkt heute Nacht";
       case "stormy":
         return "Sturm zieht in 1 Std. vorüber";
       case "snowy":
@@ -121,6 +140,7 @@ export default function CurrentWeather({
       snowy: "Schneefall",
       windy: "Windig",
       "partly-cloudy": "Teils Bewölkt",
+      "partly-cloudy-night": "Teils Bewölkt",
     };
     return mapping[cond.toLowerCase()] || capitalize(cond);
   };
@@ -155,7 +175,7 @@ export default function CurrentWeather({
           {/* Row 1, Col 1: Weather Icon */}
           <div className="flex items-center justify-center">
             <WeatherIcon
-              condition={weather.condition}
+              condition={effectiveCondition}
               size={112}
               strokeWidth={2.5}
             />
@@ -176,7 +196,7 @@ export default function CurrentWeather({
             <span
               className={`px-3.5 py-1.5 text-sm md:text-base font-mono uppercase font-black tracking-widest leading-none rounded-sm ${isDark ? "bg-white text-black" : "bg-black text-white"}`}
             >
-              {translateCondition(weather.condition)}
+              {translateCondition(effectiveCondition)}
             </span>
           </div>
 

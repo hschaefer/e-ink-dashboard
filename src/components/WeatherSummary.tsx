@@ -22,7 +22,8 @@ export default function WeatherSummary({ data, theme }: WeatherSummaryProps) {
       stormy: 'stürmisch',
       snowy: 'schneefall',
       windy: 'windig',
-      'partly-cloudy': 'teils bewölkt'
+      'partly-cloudy': 'teils bewölkt',
+      'partly-cloudy-night': 'teils bewölkt'
     };
     return mapping[cond.toLowerCase()] || cond;
   };

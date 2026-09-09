@@ -187,15 +187,23 @@ export function useHomeAssistant(activeScenario: string) {
           newData.weather.windSpeed = attrs.wind_speed !== undefined ? parseFloat(attrs.wind_speed) : newData.weather.windSpeed;
           newData.weather.windDirection = attrs.wind_bearing !== undefined ? mapWindDirection(parseFloat(attrs.wind_bearing)) : newData.weather.windDirection;
           let cond = mapCondition(weatherState.state);
-          if (isCurrentTimeNight && (cond === 'sunny' || cond === 'clear')) {
-            cond = 'clear-night';
+          if (isCurrentTimeNight) {
+            if (cond === 'sunny' || cond === 'clear') {
+              cond = 'clear-night';
+            } else if (cond === 'partly-cloudy' || cond === 'partlycloudy' || cond === 'sunny-intervals') {
+              cond = 'partly-cloudy-night';
+            }
           }
           newData.weather.condition = cond;
           newData.weather.lastUpdated = `${format24hTime(new Date())} HA`;
           // we don't always get feelsLike from HA weather entity, keeping base or computing could be done, we keep base for now.
         } else {
-          if (isCurrentTimeNight && (newData.weather.condition === 'sunny' || newData.weather.condition === 'clear')) {
-            newData.weather.condition = 'clear-night';
+          if (isCurrentTimeNight) {
+            if (newData.weather.condition === 'sunny' || newData.weather.condition === 'clear') {
+              newData.weather.condition = 'clear-night';
+            } else if (newData.weather.condition === 'partly-cloudy' || newData.weather.condition === 'partlycloudy' || newData.weather.condition === 'sunny-intervals') {
+              newData.weather.condition = 'partly-cloudy-night';
+            }
           }
         }
 
