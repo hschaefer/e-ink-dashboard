@@ -32,7 +32,8 @@ app.get('/config.js', (req, res) => {
     HA_ENTITY_PM25: process.env.HA_ENTITY_PM25 || '',
     HA_ENTITY_LQI: process.env.HA_ENTITY_LQI || '',
     HA_ENTITY_WEATHER_SUMMARY: process.env.HA_ENTITY_WEATHER_SUMMARY || '',
-    HA_ENTITY_WEATHER_SHORT_SUMMARY: process.env.HA_ENTITY_WEATHER_SHORT_SUMMARY || ''
+    HA_ENTITY_WEATHER_SHORT_SUMMARY: process.env.HA_ENTITY_WEATHER_SHORT_SUMMARY || '',
+    HA_ENTITY_SUN: process.env.HA_ENTITY_SUN || 'sun.sun'
   };
 
   res.type('application/javascript');

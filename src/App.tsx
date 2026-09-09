@@ -114,6 +114,7 @@ export default function App() {
                 data={currentData.hourly} 
                 theme={theme} 
                 currentCondition={currentData.weather.condition}
+                isNight={currentData.sun?.isNight}
               />
             </div>
 

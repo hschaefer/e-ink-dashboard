@@ -5,7 +5,9 @@ import {
   CloudLightning, 
   Snowflake, 
   Wind, 
-  CloudSun 
+  CloudSun,
+  Moon,
+  CloudMoon
 } from 'lucide-react';
 
 interface WeatherIconProps {
@@ -27,6 +29,11 @@ export default function WeatherIcon({
     case 'sunny':
     case 'clear':
       return <Sun size={size} strokeWidth={strokeWidth} className={`text-current ${className}`} />;
+
+    case 'clear-night':
+    case 'moon':
+    case 'night':
+      return <Moon size={size} strokeWidth={strokeWidth} className={`text-current ${className}`} />;
     
     case 'cloudy':
     case 'overcast':
@@ -38,6 +45,10 @@ export default function WeatherIcon({
     case 'partly-cloudy':
     case 'partlycloudy':
       return <CloudSun size={size} strokeWidth={strokeWidth} className={`text-current ${className}`} />;
+
+    case 'partly-cloudy-night':
+    case 'partlycloudy-night':
+      return <CloudMoon size={size} strokeWidth={strokeWidth} className={`text-current ${className}`} />;
       
     case 'rainy':
     case 'drizzle':

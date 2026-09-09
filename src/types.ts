@@ -15,6 +15,17 @@ export interface HourlyForecast {
   time: string; // e.g., "16:00"
   temp: number;
   rainProbability: number; // percentage (0 to 100)
+  condition?: string;
+  datetime?: string; // ISO string
+  isNight?: boolean;
+}
+
+export interface SunInfo {
+  isNight: boolean;
+  nextSetting?: string;
+  nextRising?: string;
+  sunsetTime?: string;
+  sunriseTime?: string;
 }
 
 export interface DailyForecast {
@@ -56,6 +67,7 @@ export interface DashboardData {
   airQuality?: AirQuality;
   aiSummary?: string;
   aiShortSummary?: string;
+  sun?: SunInfo;
 }
 
 export type EInkTheme = 'light' | 'dark';

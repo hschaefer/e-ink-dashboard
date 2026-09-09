@@ -16,6 +16,7 @@ export default function WeatherSummary({ data, theme }: WeatherSummaryProps) {
   const translateCondition = (cond: string) => {
     const mapping: Record<string, string> = {
       sunny: 'sonnig',
+      'clear-night': 'klar',
       rainy: 'regnerisch',
       cloudy: 'bewölkt',
       stormy: 'stürmisch',

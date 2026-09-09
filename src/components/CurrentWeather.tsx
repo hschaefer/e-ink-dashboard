@@ -114,6 +114,7 @@ export default function CurrentWeather({
   const translateCondition = (cond: string) => {
     const mapping: Record<string, string> = {
       sunny: "Sonnig",
+      "clear-night": "Klare Nacht",
       rainy: "Regnerisch",
       cloudy: "Bewölkt",
       stormy: "Stürmisch",

@@ -6,6 +6,7 @@ interface CombinedForecastChartProps {
   data: HourlyForecast[];
   theme: 'light' | 'dark';
   currentCondition?: string;
+  isNight?: boolean;
 }
 
 // Helper to define grayscale shades based on weather conditions
@@ -33,6 +34,7 @@ const getSegmentStyle = (condition: string, isDark: boolean) => {
           text: 'text-white border-r border-neutral-600 last:border-r-0' 
         };
       case 'partly-cloudy':
+      case 'partly-cloudy-night':
         return { 
           bg: 'bg-neutral-800', 
           text: 'text-white border-r border-neutral-700 last:border-r-0' 
@@ -42,6 +44,8 @@ const getSegmentStyle = (condition: string, isDark: boolean) => {
           bg: 'bg-neutral-800', 
           text: 'text-white border-r border-neutral-700 last:border-r-0' 
         };
+      case 'clear-night':
+      case 'moon':
       case 'sunny':
       default:
         return { 
@@ -73,6 +77,7 @@ const getSegmentStyle = (condition: string, isDark: boolean) => {
           text: 'text-black' 
         };
       case 'partly-cloudy':
+      case 'partly-cloudy-night':
         return { 
           bg: 'bg-neutral-200 border-r border-neutral-300 last:border-r-0', 
           text: 'text-black' 
@@ -82,6 +87,8 @@ const getSegmentStyle = (condition: string, isDark: boolean) => {
           bg: 'bg-neutral-200 border-r border-neutral-300 last:border-r-0', 
           text: 'text-black' 
         };
+      case 'clear-night':
+      case 'moon':
       case 'sunny':
       default:
         return { 
@@ -147,13 +154,15 @@ const format24hTooltipTime = (timeStr: string): string => {
   return timeStr;
 };
 
-export default function CombinedForecastChart({ data, theme, currentCondition }: CombinedForecastChartProps) {
+export default function CombinedForecastChart({ data, theme, currentCondition, isNight }: CombinedForecastChartProps) {
   const isDark = theme === 'dark';
   const borderStyle = isDark ? 'border-neutral-800' : 'border-neutral-200';
 
   // Context-aware dynamic weather condition for each hourly tile
-  const getHourlyCondition = (rainProb: number) => {
+  const getHourlyCondition = (item: HourlyForecast) => {
+    const rainProb = item.rainProbability;
     const parentCond = (currentCondition || 'sunny').toLowerCase().trim();
+    const itemIsNight = item.isNight ?? isNight ?? (parentCond === 'clear-night');
     
     if (rainProb >= 60) {
       if (parentCond.includes('storm')) return 'stormy';
@@ -163,7 +172,7 @@ export default function CombinedForecastChart({ data, theme, currentCondition }:
     
     if (rainProb >= 25) {
       if (parentCond.includes('mist') || parentCond.includes('fog')) return 'cloudy';
-      return 'partly-cloudy';
+      return itemIsNight ? 'partly-cloudy-night' : 'partly-cloudy';
     }
     
     if (parentCond.includes('mist') || parentCond.includes('fog') || parentCond.includes('cloud')) {
@@ -173,7 +182,7 @@ export default function CombinedForecastChart({ data, theme, currentCondition }:
       return 'windy';
     }
     
-    return 'sunny';
+    return itemIsNight ? 'clear-night' : 'sunny';
   };
 
   return (
@@ -206,7 +215,7 @@ export default function CombinedForecastChart({ data, theme, currentCondition }:
             {/* Row B: Continuous Weather Ribbon */}
             <div className={`grid grid-cols-8 gap-0 h-12 border ${isDark ? 'border-neutral-800' : 'border-neutral-300'} rounded-md overflow-hidden`}>
               {data.map((item) => {
-                const condition = getHourlyCondition(item.rainProbability);
+                const condition = getHourlyCondition(item);
                 const style = getSegmentStyle(condition, isDark);
                 
                 return (
