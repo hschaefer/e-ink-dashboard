@@ -30,6 +30,7 @@ export default defineConfig(({ mode }) => {
       'import.meta.env.EINK_THEME': JSON.stringify(env.EINK_THEME || process.env.EINK_THEME || ''),
       'import.meta.env.EINK_SCENARIO': JSON.stringify(env.EINK_SCENARIO || process.env.EINK_SCENARIO || ''),
       'import.meta.env.EINK_SHOW_CONTROLS': JSON.stringify(env.EINK_SHOW_CONTROLS || process.env.EINK_SHOW_CONTROLS || ''),
+      'import.meta.env.EINK_HIDE_SETTINGS': JSON.stringify(env.EINK_HIDE_SETTINGS || process.env.EINK_HIDE_SETTINGS || ''),
       'import.meta.env.HA_ENTITY_SUN': JSON.stringify(env.HA_ENTITY_SUN || process.env.HA_ENTITY_SUN || 'sun.sun'),
     },
   };

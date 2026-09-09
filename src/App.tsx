@@ -61,6 +61,13 @@ export default function App() {
     return true;
   });
 
+  const hideSettings = (() => {
+    const envHide = import.meta.env.DEV
+      ? (import.meta.env.EINK_HIDE_SETTINGS || (window as any).EINK_ENV?.HIDE_SETTINGS)
+      : ((window as any).EINK_ENV?.HIDE_SETTINGS);
+    return envHide === 'true';
+  })();
+
   const { data: currentData, loading, error } = useHomeAssistant(activeScenario);
   const isDark = theme === 'dark';
 
@@ -138,6 +145,7 @@ export default function App() {
       </main>
 
       {/* DASHBOARD CALIBRATION CONTROLS (Can be fully hidden for a pristine physical test setup!) */}
+      {!hideSettings && (
       <footer className="w-full max-w-7xl mx-auto px-6 pb-6 select-none">
         {showControls ? (
           <div className={`p-4 md:p-6 rounded-lg ${statusBg} flex flex-col gap-4 md:flex-row md:items-center md:justify-between transition-all`}>
@@ -219,6 +227,7 @@ export default function App() {
           </div>
         )}
       </footer>
+      )}
     </div>
   );
 }

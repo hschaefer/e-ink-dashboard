@@ -23,6 +23,7 @@ app.get('/config.js', (req, res) => {
     THEME: process.env.EINK_THEME || 'light',
     SCENARIO: process.env.EINK_SCENARIO || 'springShowers',
     SHOW_CONTROLS: process.env.EINK_SHOW_CONTROLS || 'true',
+    HIDE_SETTINGS: process.env.EINK_HIDE_SETTINGS || 'false',
     // We only expose non-sensitive entity configuration to the frontend
     HA_ENTITY_WEATHER: process.env.HA_ENTITY_WEATHER || '',
     HA_ENTITY_INDOOR_TEMP: process.env.HA_ENTITY_INDOOR_TEMP || '',
