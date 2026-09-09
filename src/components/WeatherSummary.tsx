@@ -85,7 +85,7 @@ export default function WeatherSummary({ data, theme }: WeatherSummaryProps) {
         <div className="flex flex-col gap-4 text-xl md:text-2xl font-sans font-medium leading-relaxed text-current">
           
           {data.aiSummary ? (
-            <div className="[&>p]:mb-3 [&>p:last-child]:mb-0 [&>strong]:font-black [&>ul]:list-disc [&>ul]:pl-5 [&>ul]:mb-3 [&>ul:last-child]:mb-0 [&>em]:italic">
+            <div className="break-words text-left [&>p]:mb-3 [&>p:last-child]:mb-0 [&>strong]:font-black [&>ul]:list-disc [&>ul]:pl-5 [&>ul]:mb-3 [&>ul:last-child]:mb-0 [&>em]:italic">
               <ReactMarkdown>
                 {data.aiSummary}
               </ReactMarkdown>
