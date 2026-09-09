@@ -90,10 +90,10 @@ export default function App() {
   return (
     <div className={`${theme} min-h-screen w-full eink-crisp transition-colors duration-150 flex flex-col justify-between ${bgClass}`}>
       {/* MAIN CONTAINER */}
-      <main className="relative w-full max-w-7xl mx-auto px-6 pt-4 pb-8 md:px-12 md:pt-6 md:pb-16 flex-grow flex flex-col justify-center">
+      <main className="relative w-full max-w-7xl mx-auto px-6 pb-8 md:px-12 md:pb-16 flex-grow flex flex-col">
         
         {/* Compact battery level in top right */}
-        <div className={`absolute top-3 right-6 md:top-4 md:right-12 flex items-center gap-1.5 text-xs sm:text-sm font-mono font-black tracking-tight ${isDark ? 'text-white' : 'text-black'}`}>
+        <div className={`flex justify-end items-center gap-1.5 pt-3 pb-3 md:pt-4 md:pb-4 text-xs sm:text-sm font-mono font-black tracking-tight ${isDark ? 'text-white' : 'text-black'}`}>
           <Battery size={18} strokeWidth={2.5} />
           <span>{currentData.status.batteryPercent}%</span>
         </div>
