@@ -171,7 +171,7 @@ export default function CurrentWeather({
 
       {/* 2. Hero Weather Showcase */}
       <div className="flex flex-col gap-4">
-        <div className="grid grid-cols-[auto_1fr] gap-x-6 gap-y-3 py-2 items-start">
+        <div className="grid grid-cols-[auto_minmax(0,1fr)] gap-x-6 gap-y-3 py-2 items-start">
           {/* Row 1, Col 1: Weather Icon */}
           <div className="flex items-center justify-center">
             <WeatherIcon
@@ -182,7 +182,7 @@ export default function CurrentWeather({
           </div>
 
           {/* Row 1, Col 2: Massive Outdoor Temp */}
-          <div className="flex items-start leading-none">
+          <div className="flex flex-wrap items-start leading-none min-w-0">
             <span className="text-7xl lg:text-8xl font-display font-black tracking-tight leading-none tabular-nums">
               {weather.currentTemp.toFixed(1)}
             </span>
