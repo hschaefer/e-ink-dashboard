@@ -172,7 +172,17 @@ export default function CombinedForecastChart({ data, theme, currentCondition, i
     const rainProb = item.rainProbability;
     const parentCond = (currentCondition || 'sunny').toLowerCase().trim();
     const itemIsNight = item.isNight ?? isNight ?? (parentCond === 'clear-night');
-    
+
+    // Live HA data provides a per-hour condition; use it directly.
+    if (item.condition) {
+      const cond = item.condition.toLowerCase().trim();
+      if (itemIsNight) {
+        if (cond === 'sunny' || cond === 'clear') return 'clear-night';
+        if (cond === 'partly-cloudy' || cond === 'partlycloudy' || cond === 'sunny-intervals') return 'partly-cloudy-night';
+      }
+      return cond;
+    }
+
     if (rainProb >= 60) {
       if (parentCond.includes('storm')) return 'stormy';
       if (parentCond.includes('snow')) return 'snowy';
