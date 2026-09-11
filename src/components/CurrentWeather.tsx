@@ -182,11 +182,11 @@ export default function CurrentWeather({
           </div>
 
           {/* Row 1, Col 2: Massive Outdoor Temp */}
-          <div className="flex flex-wrap items-start leading-none min-w-0">
-            <span className="text-7xl lg:text-8xl font-display font-black tracking-tight leading-none tabular-nums">
+          <div className="flex items-start leading-none min-w-0">
+            <span className="text-7xl xl:text-8xl font-display font-black tracking-tight leading-none tabular-nums">
               {weather.currentTemp.toFixed(1)}
             </span>
-            <span className="text-3xl lg:text-4xl font-sans font-bold leading-none mt-1 ml-2">
+            <span className="text-3xl xl:text-4xl font-sans font-bold leading-none mt-1 ml-2">
               &deg;C
             </span>
           </div>
