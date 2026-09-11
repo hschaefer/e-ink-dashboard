@@ -74,7 +74,7 @@ const getSegmentStyle = (condition: string, isDark: boolean) => {
       case 'cloudy':
         return { 
           bg: 'bg-neutral-300 border-r border-neutral-400 last:border-r-0', 
-          text: 'text-white' 
+          text: 'text-black' 
         };
       case 'partly-cloudy':
         return { 
