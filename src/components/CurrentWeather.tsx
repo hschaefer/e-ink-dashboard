@@ -1,6 +1,38 @@
 import { WeatherData } from "../types";
 import WeatherIcon from "./WeatherIcon";
-import { WiRaindrops } from "weather-icons-react";
+import { WiRaindrops, WiStrongWind, WiThermometer } from "weather-icons-react";
+
+const getWindArrow = (dir: string): string => {
+  const cleanDir = dir.toUpperCase().trim();
+  switch (cleanDir) {
+    case "N":
+      return "↑";
+    case "NNE":
+    case "NE":
+    case "ENE":
+      return "↗";
+    case "E":
+      return "→";
+    case "ESE":
+    case "SE":
+    case "SSE":
+      return "↘";
+    case "S":
+      return "↓";
+    case "SSW":
+    case "SW":
+    case "WSW":
+      return "↙";
+    case "W":
+      return "←";
+    case "WNW":
+    case "NW":
+    case "NNW":
+      return "↖";
+    default:
+      return "";
+  }
+};
 
 interface CurrentWeatherProps {
   weather: WeatherData;
@@ -90,18 +122,72 @@ export default function CurrentWeather({
         </div>
       </div>
 
-      {/* 2. Indoor Climate Strip below, spanning the full column width */}
-      <div
-        className={`py-3.5 border-y-2 flex items-center justify-between gap-4 ${
-          isDark
-            ? "border-neutral-700 text-white"
-            : "border-neutral-300 text-black"
-        }`}
-      >
-        <div className="flex items-baseline gap-4">
-          <span className="text-sm font-mono uppercase tracking-widest font-black">
-            Innen
-          </span>
+      {/* 2. Outdoor & Indoor Climate Cards below, spanning the full column width */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        {/* Outdoor Vitals Card */}
+        <div
+          className={`p-3.5 md:p-4 rounded-lg border-2 flex flex-col justify-between gap-3 ${
+            isDark
+              ? "border-neutral-500 bg-black text-white"
+              : "border-neutral-300 bg-white text-black"
+          }`}
+        >
+          <div className="flex items-center justify-between">
+            <span className="text-sm font-mono uppercase tracking-widest font-black leading-none">
+              Außen
+            </span>
+          </div>
+
+          <div className="flex flex-col gap-3">
+            <div className="flex items-center gap-2 w-full">
+              <WiRaindrops size={28} className="shrink-0" />
+              <div className="flex justify-between items-baseline w-full gap-1.5 min-w-0">
+                <span className="text-sm font-mono font-bold uppercase tracking-wide">
+                  Feuchte
+                </span>
+                <span className="text-xl lg:text-2xl font-mono font-black tabular-nums leading-none">
+                  {Math.round(weather.humidity)}%
+                </span>
+              </div>
+            </div>
+
+            <div
+              className={`flex items-center gap-2 w-full pt-2.5 border-t ${
+                isDark ? "border-neutral-700" : "border-neutral-200"
+              }`}
+            >
+              <WiStrongWind size={28} className="shrink-0" />
+              <div className="flex justify-between items-baseline w-full gap-1.5 min-w-0">
+                <span className="text-sm font-mono font-bold uppercase tracking-wide">
+                  Wind
+                </span>
+                <span className="text-xl lg:text-2xl font-mono font-black tabular-nums leading-none flex items-baseline gap-1 whitespace-nowrap">
+                  {Math.round(weather.windSpeed)}
+                  <span className="text-sm font-sans font-bold lowercase">
+                    km/h
+                  </span>
+                  <span>{getWindArrow(weather.windDirection)}</span>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Indoor Climate Gray Counter-Weight Card */}
+        <div
+          className={`p-3.5 md:p-4 rounded-lg flex flex-col justify-between gap-3 ${
+            isDark
+              ? "bg-neutral-900 text-white"
+              : "bg-neutral-100 text-black"
+          }`}
+        >
+          <div className="flex items-center justify-between">
+            <span className="text-sm font-mono uppercase tracking-widest font-black leading-none">
+              Innen
+            </span>
+            <WiThermometer size={26} className="shrink-0 -my-1" />
+          </div>
+
           <div className="flex items-start leading-none">
             <span className="text-4xl font-display font-black tracking-tight leading-none tabular-nums">
               {weather.indoorTemp.toFixed(1)}
@@ -110,13 +196,22 @@ export default function CurrentWeather({
               &deg;C
             </span>
           </div>
-        </div>
 
-        <div className="flex items-center gap-1.5 leading-none">
-          <WiRaindrops size={34} />
-          <span className="text-2xl font-mono font-black tabular-nums">
-            {Math.round(weather.indoorHumidity)}%
-          </span>
+          <div
+            className={`flex items-center gap-2 w-full pt-2.5 border-t ${
+              isDark ? "border-neutral-500" : "border-neutral-300"
+            }`}
+          >
+            <WiRaindrops size={28} className="shrink-0" />
+            <div className="flex justify-between items-baseline w-full gap-1.5 min-w-0">
+              <span className="text-sm font-mono font-bold uppercase tracking-wide">
+                Feuchte
+              </span>
+              <span className="text-xl lg:text-2xl font-mono font-black tabular-nums leading-none">
+                {Math.round(weather.indoorHumidity)}%
+              </span>
+            </div>
+          </div>
         </div>
       </div>
     </div>

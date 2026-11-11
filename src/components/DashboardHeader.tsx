@@ -1,9 +1,44 @@
 import { useState, useEffect } from "react";
-import { Battery } from "lucide-react";
 
 interface DashboardHeaderProps {
   batteryPercent: number;
   theme: "light" | "dark";
+}
+
+function BatteryLevelIcon({ percent }: { percent: number }) {
+  const clamped = Math.max(0, Math.min(100, percent));
+  const maxBarWidth = 16.6;
+  const barWidth = clamped > 0 ? Math.max(1.5, (clamped / 100) * maxBarWidth) : 0;
+
+  return (
+    <svg
+      viewBox="0 0 28 16"
+      aria-hidden="true"
+      className="w-8 h-[19px] md:w-9 md:h-[22px] shrink-0"
+    >
+      <rect
+        x="1.5"
+        y="1.5"
+        width="22"
+        height="13"
+        rx="2"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2.2"
+      />
+      <rect x="24.5" y="5" width="2.5" height="6" rx="0.75" fill="currentColor" />
+      {barWidth > 0 && (
+        <rect
+          x="4.2"
+          y="4.2"
+          width={barWidth}
+          height="7.6"
+          rx="0.75"
+          fill="currentColor"
+        />
+      )}
+    </svg>
+  );
 }
 
 /**
@@ -56,8 +91,11 @@ export default function DashboardHeader({
         </span>
       </div>
 
-      <div className="flex items-center gap-1.5 text-sm font-mono font-black tracking-tight self-center">
-        <Battery size={20} strokeWidth={2.5} />
+      <div
+        className="flex items-center gap-2 text-xl md:text-2xl font-mono font-black tracking-tight tabular-nums leading-none self-center"
+        aria-label={`Batteriestand ${batteryPercent}%`}
+      >
+        <BatteryLevelIcon percent={batteryPercent} />
         <span>{batteryPercent}%</span>
       </div>
     </header>
