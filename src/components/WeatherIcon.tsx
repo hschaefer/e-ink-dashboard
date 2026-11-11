@@ -1,14 +1,20 @@
-import { 
-  Sun, 
-  Cloud, 
-  CloudRain, 
-  CloudLightning, 
-  Snowflake, 
-  Wind, 
-  CloudSun,
-  Moon,
-  CloudMoon
-} from 'lucide-react';
+import {
+  WiDaySunny,
+  WiNightClear,
+  WiCloudy,
+  WiFog,
+  WiDayCloudy,
+  WiNightAltPartlyCloudy,
+  WiRain,
+  WiShowers,
+  WiThunderstorm,
+  WiLightning,
+  WiHail,
+  WiSnow,
+  WiSleet,
+  WiStrongWind,
+  type WeatherIconComponent,
+} from 'weather-icons-react';
 
 interface WeatherIconProps {
   condition: string;
@@ -17,58 +23,53 @@ interface WeatherIconProps {
   className?: string;
 }
 
-export default function WeatherIcon({ 
-  condition, 
-  size = 48, 
-  strokeWidth = 2.5, 
-  className = "" 
+const CONDITION_ICON_MAP: Record<string, WeatherIconComponent> = {
+  sunny: WiDaySunny,
+  clear: WiDaySunny,
+  'clear-night': WiNightClear,
+  moon: WiNightClear,
+  night: WiNightClear,
+  cloudy: WiCloudy,
+  overcast: WiCloudy,
+  fog: WiFog,
+  foggy: WiFog,
+  misty: WiFog,
+  'sunny-intervals': WiDayCloudy,
+  'partly-cloudy': WiDayCloudy,
+  partlycloudy: WiDayCloudy,
+  'partly-cloudy-night': WiNightAltPartlyCloudy,
+  'partlycloudy-night': WiNightAltPartlyCloudy,
+  rainy: WiRain,
+  pouring: WiRain,
+  drizzle: WiShowers,
+  showers: WiShowers,
+  stormy: WiThunderstorm,
+  thunderstorm: WiThunderstorm,
+  'lightning-rainy': WiThunderstorm,
+  lightning: WiLightning,
+  hail: WiHail,
+  snowy: WiSnow,
+  sleet: WiSleet,
+  'snowy-rainy': WiSleet,
+  windy: WiStrongWind,
+  breezy: WiStrongWind,
+};
+
+/**
+ * Renders a monochrome weather glyph from weather-icons-react matching the condition.
+ */
+export default function WeatherIcon({
+  condition,
+  size = 48,
+  className = '',
 }: WeatherIconProps) {
   const normCondition = condition.toLowerCase().trim();
+  const IconComponent = CONDITION_ICON_MAP[normCondition] || WiDayCloudy;
 
-  switch (normCondition) {
-    case 'sunny':
-    case 'clear':
-      return <Sun size={size} strokeWidth={strokeWidth} className={`text-current ${className}`} />;
-
-    case 'clear-night':
-    case 'moon':
-    case 'night':
-      return <Moon size={size} strokeWidth={strokeWidth} className={`text-current ${className}`} />;
-    
-    case 'cloudy':
-    case 'overcast':
-    case 'misty':
-    case 'foggy':
-      return <Cloud size={size} strokeWidth={strokeWidth} className={`text-current ${className}`} />;
-      
-    case 'sunny-intervals':
-    case 'partly-cloudy':
-    case 'partlycloudy':
-      return <CloudSun size={size} strokeWidth={strokeWidth} className={`text-current ${className}`} />;
-
-    case 'partly-cloudy-night':
-    case 'partlycloudy-night':
-      return <CloudMoon size={size} strokeWidth={strokeWidth} className={`text-current ${className}`} />;
-      
-    case 'rainy':
-    case 'drizzle':
-    case 'showers':
-      return <CloudRain size={size} strokeWidth={strokeWidth} className={`text-current ${className}`} />;
-      
-    case 'stormy':
-    case 'thunderstorm':
-      return <CloudLightning size={size} strokeWidth={strokeWidth} className={`text-current ${className}`} />;
-      
-    case 'snowy':
-    case 'sleet':
-      return <Snowflake size={size} strokeWidth={strokeWidth} className={`text-current ${className}`} />;
-      
-    case 'windy':
-    case 'breezy':
-      return <Wind size={size} strokeWidth={strokeWidth} className={`text-current ${className}`} />;
-      
-    default:
-      // Fallback to sun/cloud mix or general cloud
-      return <CloudSun size={size} strokeWidth={strokeWidth} className={`text-current ${className}`} />;
-  }
+  return (
+    <IconComponent
+      size={size}
+      className={`text-current ${className}`.trim()}
+    />
+  );
 }

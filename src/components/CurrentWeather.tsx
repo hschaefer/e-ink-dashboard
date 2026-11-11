@@ -1,6 +1,6 @@
 import { WeatherData } from "../types";
 import WeatherIcon from "./WeatherIcon";
-import { Droplets } from "lucide-react";
+import { WiRaindrops } from "weather-icons-react";
 
 interface CurrentWeatherProps {
   weather: WeatherData;
@@ -12,9 +12,16 @@ const CONDITION_LABELS: Record<string, string> = {
   sunny: "Sonnig",
   "clear-night": "Klare Nacht",
   rainy: "Regnerisch",
+  pouring: "Starkregen",
+  showers: "Schauer",
+  drizzle: "Nieselregen",
   cloudy: "Bewölkt",
+  fog: "Neblig",
   stormy: "Stürmisch",
+  lightning: "Gewitter",
+  hail: "Hagel",
   snowy: "Schneefall",
+  sleet: "Schneeregen",
   windy: "Windig",
   "partly-cloudy": "Teils Bewölkt",
   "partly-cloudy-night": "Teils Bewölkt",
@@ -56,8 +63,7 @@ export default function CurrentWeather({
         <div className="flex items-center justify-center shrink-0">
           <WeatherIcon
             condition={effectiveCondition}
-            size={108}
-            strokeWidth={2.5}
+            size={124}
           />
         </div>
 
@@ -106,7 +112,7 @@ export default function CurrentWeather({
         </div>
 
         <div className="flex items-center gap-2 leading-none">
-          <Droplets size={22} strokeWidth={2.5} />
+          <WiRaindrops size={28} />
           <span className="text-2xl font-mono font-black tabular-nums">
             {Math.round(weather.indoorHumidity)}%
           </span>

@@ -14,21 +14,28 @@ const getSegmentStyle = (condition: string, isDark: boolean) => {
   if (isDark) {
     switch (condition) {
       case 'stormy':
+      case 'lightning':
+      case 'hail':
         return { 
           bg: 'bg-neutral-100', 
           text: 'text-black border-r border-neutral-300 last:border-r-0' 
         };
       case 'rainy':
+      case 'pouring':
+      case 'showers':
+      case 'drizzle':
         return { 
           bg: 'bg-neutral-300', 
           text: 'text-black border-r border-neutral-400 last:border-r-0' 
         };
       case 'snowy':
+      case 'sleet':
         return { 
           bg: 'bg-neutral-400', 
           text: 'text-black border-r border-neutral-500 last:border-r-0' 
         };
       case 'cloudy':
+      case 'fog':
         return { 
           bg: 'bg-neutral-700', 
           text: 'text-white border-r border-neutral-600 last:border-r-0' 
@@ -57,21 +64,28 @@ const getSegmentStyle = (condition: string, isDark: boolean) => {
     // Light e-paper theme
     switch (condition) {
       case 'stormy':
+      case 'lightning':
+      case 'hail':
         return { 
           bg: 'bg-neutral-900', 
           text: 'text-white border-r border-neutral-950 last:border-r-0' 
         };
       case 'rainy':
+      case 'pouring':
+      case 'showers':
+      case 'drizzle':
         return { 
           bg: 'bg-neutral-700', 
           text: 'text-white border-r border-neutral-800 last:border-r-0' 
         };
       case 'snowy':
+      case 'sleet':
         return { 
           bg: 'bg-neutral-100 border-r border-neutral-200 last:border-r-0', 
           text: 'text-black' 
         };
       case 'cloudy':
+      case 'fog':
         return { 
           bg: 'bg-neutral-300 border-r border-neutral-400 last:border-r-0', 
           text: 'text-black' 
@@ -245,8 +259,7 @@ export default function CombinedForecastChart({ data, theme, currentCondition, i
                   >
                     <WeatherIcon 
                       condition={condition} 
-                      size={32} 
-                      strokeWidth={2.5} 
+                      size={36} 
                     />
                   </div>
                 );
