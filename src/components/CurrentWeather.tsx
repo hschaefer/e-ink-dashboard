@@ -21,7 +21,7 @@ const CONDITION_LABELS: Record<string, string> = {
 };
 
 /**
- * Paired outdoor hero weather and indoor climate readout for Proposal 1.
+ * Full-column outdoor hero weather stacked above a full-column indoor climate strip.
  */
 export default function CurrentWeather({
   weather,
@@ -50,30 +50,30 @@ export default function CurrentWeather({
     effectiveCondition.charAt(0).toUpperCase() + effectiveCondition.slice(1);
 
   return (
-    <div className="flex items-center justify-between gap-4 py-2 select-none">
-      {/* Outdoor: Icon + Temperature + Condition Badge */}
-      <div className="flex items-center gap-4 min-w-0">
+    <div className="flex flex-col gap-5 select-none">
+      {/* 1. Outdoor Hero spanning the full column width */}
+      <div className="flex items-center justify-between gap-6 py-1">
         <div className="flex items-center justify-center shrink-0">
           <WeatherIcon
             condition={effectiveCondition}
-            size={88}
+            size={108}
             strokeWidth={2.5}
           />
         </div>
 
-        <div className="flex flex-col justify-center min-w-0">
+        <div className="flex flex-col items-start justify-center min-w-0">
           <div className="flex items-start leading-none">
-            <span className="text-6xl font-display font-black tracking-tight leading-none tabular-nums">
+            <span className="text-7xl lg:text-8xl font-display font-black tracking-tight leading-none tabular-nums">
               {weather.currentTemp.toFixed(1)}
             </span>
-            <span className="text-2xl font-sans font-bold leading-none mt-1 ml-1">
+            <span className="text-3xl lg:text-4xl font-sans font-bold leading-none mt-1 ml-2">
               &deg;C
             </span>
           </div>
 
           <div className="flex mt-2.5">
             <span
-              className={`px-3 py-1.5 text-sm font-mono uppercase font-black tracking-widest leading-none rounded-sm whitespace-nowrap ${
+              className={`px-3.5 py-1.5 text-sm md:text-base font-mono uppercase font-black tracking-widest leading-none rounded-sm whitespace-nowrap ${
                 isDark ? "bg-white text-black" : "bg-black text-white"
               }`}
             >
@@ -83,26 +83,31 @@ export default function CurrentWeather({
         </div>
       </div>
 
-      {/* Indoor: Clean typographic readout beside outdoor temp */}
+      {/* 2. Indoor Climate Strip below, spanning the full column width */}
       <div
-        className={`border-l-2 pl-5 flex flex-col justify-center gap-2 shrink-0 ${
-          isDark ? "border-neutral-700 text-white" : "border-neutral-300 text-black"
+        className={`py-3.5 border-y-2 flex items-center justify-between gap-4 ${
+          isDark
+            ? "border-neutral-700 text-white"
+            : "border-neutral-300 text-black"
         }`}
       >
-        <span className="text-sm font-mono uppercase tracking-widest font-black leading-none">
-          Innen
-        </span>
-        <div className="flex items-start leading-none">
-          <span className="text-4xl font-display font-black tracking-tight leading-none tabular-nums">
-            {weather.indoorTemp.toFixed(1)}
+        <div className="flex items-baseline gap-4">
+          <span className="text-sm font-mono uppercase tracking-widest font-black">
+            Innen
           </span>
-          <span className="text-xl font-sans font-bold leading-none mt-0.5 ml-1">
-            &deg;C
-          </span>
+          <div className="flex items-start leading-none">
+            <span className="text-4xl font-display font-black tracking-tight leading-none tabular-nums">
+              {weather.indoorTemp.toFixed(1)}
+            </span>
+            <span className="text-xl font-sans font-bold leading-none mt-0.5 ml-1">
+              &deg;C
+            </span>
+          </div>
         </div>
-        <div className="flex items-center gap-1.5 leading-none">
-          <Droplets size={18} strokeWidth={2.5} />
-          <span className="text-xl font-mono font-black tabular-nums">
+
+        <div className="flex items-center gap-2 leading-none">
+          <Droplets size={22} strokeWidth={2.5} />
+          <span className="text-2xl font-mono font-black tabular-nums">
             {Math.round(weather.indoorHumidity)}%
           </span>
         </div>
