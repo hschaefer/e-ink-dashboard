@@ -59,11 +59,12 @@ export default function CurrentWeather({
   return (
     <div className="flex flex-col gap-5 select-none">
       {/* 1. Outdoor Hero spanning the full column width */}
-      <div className="flex items-center justify-between gap-6 py-1">
-        <div className="flex items-center justify-center shrink-0">
+      <div className="flex items-center justify-between gap-4 py-1">
+        <div className="flex-1 flex items-center justify-center shrink-0">
           <WeatherIcon
             condition={effectiveCondition}
-            size={124}
+            size={160}
+            className="-my-4"
           />
         </div>
 
@@ -111,8 +112,8 @@ export default function CurrentWeather({
           </div>
         </div>
 
-        <div className="flex items-center gap-2 leading-none">
-          <WiRaindrops size={28} />
+        <div className="flex items-center gap-1.5 leading-none">
+          <WiRaindrops size={34} />
           <span className="text-2xl font-mono font-black tabular-nums">
             {Math.round(weather.indoorHumidity)}%
           </span>
