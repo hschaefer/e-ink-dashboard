@@ -77,7 +77,7 @@ export default function WeatherSummary({ data, theme }: WeatherSummaryProps) {
       </div>
 
       {/* Narrative Container Block - matches table styling */}
-      <div className={`py-5 rounded-lg ${
+      <div className={`pt-2 pb-0 rounded-lg ${
         isDark 
           ? 'bg-transparent text-white shadow-neutral-950/20' 
           : 'bg-transparent text-black shadow-neutral-100/50'

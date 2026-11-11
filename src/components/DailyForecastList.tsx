@@ -41,7 +41,7 @@ export default function DailyForecastList({
       </div>
 
       {/* Forecast Container Block */}
-      <div className={`p-5 rounded-lg ${
+      <div className={`pt-2 pb-0 px-0 rounded-lg ${
         isDark 
           ? 'bg-transparent text-white shadow-neutral-950/20' 
           : 'bg-transparent text-black shadow-neutral-100/50'

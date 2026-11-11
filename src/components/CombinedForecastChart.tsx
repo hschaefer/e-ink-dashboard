@@ -205,10 +205,10 @@ export default function CombinedForecastChart({ data, theme, currentCondition, i
   };
 
   return (
-    <div className="w-full flex flex-col gap-5 select-none" id="hourly-forecast-unified-section">
+    <div className="w-full flex flex-col gap-4 select-none" id="hourly-forecast-unified-section">
       
       {/* HEADER - No view toggles, Unified Hybrid baked as the default */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-5 pb-1 border-b-2 border-current">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-1.5 border-b-2 border-current">
         <span className="text-sm font-mono tracking-widest uppercase font-extrabold flex items-center gap-2">
           <Clock size={16} strokeWidth={3} />
           Stündliche Vorhersage
@@ -216,8 +216,8 @@ export default function CombinedForecastChart({ data, theme, currentCondition, i
       </div>
 
       {/* UNIFIED HYBRID VIEW */}
-      <div className="flex flex-col gap-4 animate-fade-in" id="hourly-hybrid-view">
-        <div className="p-4 md:p-5 rounded-lg bg-transparent">
+      <div className="flex flex-col gap-2 animate-fade-in" id="hourly-hybrid-view">
+        <div className="pt-1 pb-0 px-0 rounded-lg bg-transparent">
           <div className="w-full flex flex-col">
             
             {/* Row A: Times */}

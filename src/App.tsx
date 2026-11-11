@@ -3,12 +3,12 @@ import { mockWeatherData } from './mockData';
 import { useHomeAssistant } from './useHomeAssistant';
 import { EInkTheme } from './types';
 import CurrentWeather from './components/CurrentWeather';
+import DashboardHeader from './components/DashboardHeader';
 import WeatherSummary from './components/WeatherSummary';
 import CombinedForecastChart from './components/CombinedForecastChart';
 import DailyForecastList from './components/DailyForecastList';
 import CalibrationPage from './components/CalibrationPage';
 import { 
-  Battery, 
   Settings, 
   EyeOff, 
   Eye,
@@ -90,35 +90,30 @@ export default function App() {
   return (
     <div className={`${theme} min-h-screen w-full eink-crisp transition-colors duration-150 flex flex-col justify-between ${bgClass}`}>
       {/* MAIN CONTAINER */}
-      <main className="relative w-full max-w-7xl mx-auto px-6 pb-8 md:px-12 md:pb-16 flex-grow flex flex-col">
+      <main className="relative w-full max-w-7xl mx-auto px-6 py-6 md:px-10 md:py-7 flex-grow flex flex-col gap-7">
         
-        {/* Compact battery level in top right */}
-        <div className={`flex justify-end items-center gap-1.5 pt-3 pb-3 md:pt-4 md:pb-4 text-xs sm:text-sm font-mono font-black tracking-tight ${isDark ? 'text-white' : 'text-black'}`}>
-          <Battery size={18} strokeWidth={2.5} />
-          <span>{currentData.status.batteryPercent}%</span>
-        </div>
+        {/* Full-width Masthead: Clock, Date, Battery */}
+        <DashboardHeader
+          batteryPercent={currentData.status.batteryPercent}
+          theme={theme}
+        />
 
-        {/* TWO COLUMN GRID LAYOUT (No borders, massive gap for visual partition) */}
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-16">
+        {/* TWO COLUMN GRID LAYOUT */}
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-12 items-start">
           
-          {/* LEFT COLUMN: 5/12 grid columns - Current Weather & Summary */}
-          <div className="md:col-span-5 flex flex-col gap-10">
-            {/* Current Weather & Summary grouped with a tighter gap */}
-            <div className="flex flex-col gap-4">
-              {/* Current Weather Module */}
-              <CurrentWeather 
-                weather={currentData.weather} 
-                theme={theme} 
-                isNight={currentData.sun?.isNight}
-              />
+          {/* LEFT COLUMN: 5/12 grid columns - Current Weather (Outdoor + Indoor) & Summary */}
+          <div className="md:col-span-5 flex flex-col gap-7">
+            <CurrentWeather 
+              weather={currentData.weather} 
+              theme={theme} 
+              isNight={currentData.sun?.isNight}
+            />
 
-              {/* Weather Summary */}
-              <WeatherSummary data={currentData} theme={theme} />
-            </div>
+            <WeatherSummary data={currentData} theme={theme} />
           </div>
 
           {/* RIGHT COLUMN: 7/12 grid columns - Hourly Forecast & 5-Day Forecast */}
-          <div className="md:col-span-7 flex flex-col gap-10">
+          <div className="md:col-span-7 flex flex-col gap-7">
             {/* Hourly Forecast Chart */}
             <div className="w-full">
               <CombinedForecastChart 
