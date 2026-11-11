@@ -90,8 +90,8 @@ export default function DailyForecastList({
                 </div>
 
                 {/* 3. Rain Level & Intensity Scale (similar to the active pollen levels) */}
-                <div className="flex items-center justify-between gap-2 w-full overflow-hidden" title={`Rain probability: ${fc.rainProbability}%`}>
-                  <span className={`text-lg md:text-xl font-mono font-black tracking-tight select-none shrink-0 tabular-nums ${isDark ? 'text-white' : 'text-black'}`}>
+                <div className="grid grid-cols-[1fr_auto] items-center gap-3 w-full overflow-hidden" title={`Rain probability: ${fc.rainProbability}%`}>
+                  <span className={`text-right text-lg md:text-xl font-mono font-black tracking-tight select-none tabular-nums ${isDark ? 'text-white' : 'text-black'}`}>
                     {fc.rainProbability}%
                   </span>
                   <div className="flex gap-0.5 shrink-0 select-none">

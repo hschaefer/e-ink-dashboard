@@ -32,4 +32,6 @@ declare module 'weather-icons-react' {
   export const WiRaindrops: WeatherIconComponent;
   export const WiHumidity: WeatherIconComponent;
   export const WiThermometer: WeatherIconComponent;
+  export const WiThermometerExterior: WeatherIconComponent;
+  export const WiThermometerInternal: WeatherIconComponent;
 }
