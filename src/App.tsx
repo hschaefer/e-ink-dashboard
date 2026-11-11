@@ -109,7 +109,6 @@ export default function App() {
               <CurrentWeather 
                 weather={currentData.weather} 
                 theme={theme} 
-                aiShortSummary={currentData.aiShortSummary} 
                 isNight={currentData.sun?.isNight}
               />
 

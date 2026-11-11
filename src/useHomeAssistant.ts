@@ -129,7 +129,6 @@ export function useHomeAssistant(activeScenario: string) {
         const ePm25 = env.HA_ENTITY_PM25 || (window as any).EINK_ENV?.HA_ENTITY_PM25;
         const eLqi = env.HA_ENTITY_LQI || (window as any).EINK_ENV?.HA_ENTITY_LQI;
         const eSummary = env.HA_ENTITY_WEATHER_SUMMARY || (window as any).EINK_ENV?.HA_ENTITY_WEATHER_SUMMARY;
-        const eShortSummary = env.HA_ENTITY_WEATHER_SHORT_SUMMARY || (window as any).EINK_ENV?.HA_ENTITY_WEATHER_SHORT_SUMMARY;
         const eSun = env.HA_ENTITY_SUN || (window as any).EINK_ENV?.HA_ENTITY_SUN || 'sun.sun';
 
         // Helper to fetch forecast
@@ -147,7 +146,7 @@ export function useHomeAssistant(activeScenario: string) {
 
         // Fetch all requested entities and forecasts
         const [
-          weatherState, hourlyForecast, dailyForecast, inTempState, inHumState, batteryState, wifiState, pm25State, lqiState, summaryState, shortSummaryState, sunState
+          weatherState, hourlyForecast, dailyForecast, inTempState, inHumState, batteryState, wifiState, pm25State, lqiState, summaryState, sunState
         ] = await Promise.all([
           fetchEntity(eWeather),
           fetchForecast(eWeather, 'hourly'),
@@ -159,7 +158,6 @@ export function useHomeAssistant(activeScenario: string) {
           fetchEntity(ePm25),
           fetchEntity(eLqi),
           fetchEntity(eSummary),
-          fetchEntity(eShortSummary),
           fetchEntity(eSun)
         ]);
 
@@ -305,10 +303,6 @@ export function useHomeAssistant(activeScenario: string) {
           } else if (summaryState.state && summaryState.state !== 'unknown') {
             newData.aiSummary = summaryState.state;
           }
-        }
-
-        if (shortSummaryState && shortSummaryState.state && shortSummaryState.state !== 'unknown') {
-          newData.aiShortSummary = shortSummaryState.state;
         }
 
         setData(newData);

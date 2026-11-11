@@ -66,7 +66,6 @@ export interface DashboardData {
   pollen: PollenInfo[];
   airQuality?: AirQuality;
   aiSummary?: string;
-  aiShortSummary?: string;
   sun?: SunInfo;
 }
 

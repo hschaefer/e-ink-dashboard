@@ -29,14 +29,12 @@ const getWindArrow = (dir: string): string => {
 interface CurrentWeatherProps {
   weather: WeatherData;
   theme: "light" | "dark";
-  aiShortSummary?: string;
   isNight?: boolean;
 }
 
 export default function CurrentWeather({
   weather,
   theme,
-  aiShortSummary,
   isNight,
 }: CurrentWeatherProps) {
   const isDark = theme === "dark";
@@ -102,34 +100,6 @@ export default function CurrentWeather({
     return cond;
   })();
 
-  const getNextUpMessage = () => {
-    if (aiShortSummary) {
-      // Return the short summary as is, trim any potential periods added by the LLM
-      return aiShortSummary.replace(/\.$/, "").trim();
-    }
-    switch (effectiveCondition) {
-      case "rainy":
-        return "Regen lässt in 1 Std. nach";
-      case "cloudy":
-        return "Sonnig heute Nachmittag";
-      case "sunny":
-        return "Klare Sicht heute Nacht";
-      case "clear-night":
-        return "Klare Sicht heute Nacht";
-      case "partly-cloudy":
-      case "partly-cloudy-night":
-        return "Teils bewölkt heute Nacht";
-      case "stormy":
-        return "Sturm zieht in 1 Std. vorüber";
-      case "snowy":
-        return "Schnee lässt heute Nacht nach";
-      case "windy":
-        return "Wind lässt später nach";
-      default:
-        return "Stabile Wetterlage";
-    }
-  };
-
   const translateCondition = (cond: string) => {
     const mapping: Record<string, string> = {
       sunny: "Sonnig",
@@ -171,9 +141,9 @@ export default function CurrentWeather({
 
       {/* 2. Hero Weather Showcase */}
       <div className="flex flex-col gap-4">
-        <div className="grid grid-cols-[auto_minmax(0,1fr)] gap-x-6 gap-y-3 py-2 items-start">
-          {/* Row 1, Col 1: Weather Icon */}
-          <div className="flex items-center justify-center">
+        <div className="flex items-center gap-6 py-2">
+          {/* Huge Weather Icon */}
+          <div className="p-2 flex items-center justify-center shrink-0">
             <WeatherIcon
               condition={effectiveCondition}
               size={112}
@@ -181,32 +151,25 @@ export default function CurrentWeather({
             />
           </div>
 
-          {/* Row 1, Col 2: Massive Outdoor Temp */}
-          <div className="flex items-start leading-none min-w-0">
-            <span className="text-7xl xl:text-8xl font-display font-black tracking-tight leading-none tabular-nums">
-              {weather.currentTemp.toFixed(1)}
-            </span>
-            <span className="text-3xl xl:text-4xl font-sans font-bold leading-none mt-1 ml-2">
-              &deg;C
-            </span>
-          </div>
+          {/* Massive Outdoor Temp & Condition Badge */}
+          <div className="flex flex-col justify-center min-w-0">
+            <div className="flex items-start leading-none">
+              <span className="text-7xl xl:text-8xl font-display font-black tracking-tight leading-none tabular-nums">
+                {weather.currentTemp.toFixed(1)}
+              </span>
+              <span className="text-3xl xl:text-4xl font-sans font-bold leading-none mt-1 ml-2">
+                &deg;C
+              </span>
+            </div>
 
-          {/* Row 2, Col 1: Condition Badge */}
-          <div className="flex justify-center">
-            <span
-              className={`px-3.5 py-1.5 text-sm md:text-base font-mono uppercase font-black tracking-widest leading-none rounded-sm whitespace-nowrap ${isDark ? "bg-white text-black" : "bg-black text-white"}`}
-            >
-              {translateCondition(effectiveCondition)}
-            </span>
-          </div>
-
-          {/* Row 2, Col 2: AI Summary */}
-          <div className="flex items-center">
-            <span
-              className={`text-sm md:text-base font-sans font-black tracking-wide leading-snug ${isDark ? "text-white" : "text-black"}`}
-            >
-              {getNextUpMessage()}
-            </span>
+            {/* Condition badge */}
+            <div className="flex mt-2.5">
+              <span
+                className={`px-3.5 py-1.5 text-sm md:text-base font-mono uppercase font-black tracking-widest leading-none rounded-sm whitespace-nowrap ${isDark ? "bg-white text-black" : "bg-black text-white"}`}
+              >
+                {translateCondition(effectiveCondition)}
+              </span>
+            </div>
           </div>
         </div>
       </div>
