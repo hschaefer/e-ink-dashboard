@@ -208,7 +208,14 @@ export function useHomeAssistant(activeScenario: string) {
         if (hourlyForecast && hourlyForecast.service_response) {
           const forecastData = Object.values(hourlyForecast.service_response)[0] as any;
           if (forecastData && Array.isArray(forecastData.forecast)) {
-            newData.hourly = forecastData.forecast.slice(0, 8).map((f: any) => {
+            const currentHourStart = new Date(now);
+            currentHourStart.setMinutes(0, 0, 0);
+            const upcomingForecast = forecastData.forecast.filter((f: any) => {
+              const t = new Date(f.datetime).getTime();
+              return isNaN(t) || t >= currentHourStart.getTime();
+            });
+            const selectedForecast = upcomingForecast.length > 0 ? upcomingForecast : forecastData.forecast;
+            newData.hourly = selectedForecast.slice(0, 8).map((f: any) => {
               const itemDate = new Date(f.datetime);
               const isNight = f.condition === 'clear-night' || checkIsNight(itemDate, sunState);
               return {
