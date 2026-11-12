@@ -6,6 +6,14 @@
   --font-display: "Space Grotesk", sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, monospace;
 
+  /* Explicit 6-level E-Ink physical palette */
+  --color-eink-white: #FFFFFF;
+  --color-eink-light: #AAAAAA;
+  --color-eink-mid-light: #666666;
+  --color-eink-mid-dark: #444444;
+  --color-eink-dark: #222222;
+  --color-eink-black: #000000;
+
   /* Force standard colors to resolve strictly to the six E-ink contrast levels */
   --color-white: #FFFFFF;
   --color-black: #000000;

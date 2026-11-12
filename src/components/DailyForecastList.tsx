@@ -41,13 +41,13 @@ export default function DailyForecastList({
       </div>
 
       {/* Forecast Container Block */}
-      <div className={`pt-2 pb-0 px-0 rounded-lg ${
-        isDark 
-          ? 'bg-transparent text-white shadow-neutral-950/20' 
-          : 'bg-transparent text-black shadow-neutral-100/50'
+      <div className={`pt-2 pb-0 px-0 rounded-lg bg-transparent ${
+        isDark ? 'text-eink-white' : 'text-eink-black'
       }`}>
         {/* Table Header Row aligned to column system for high professional polish */}
-        <div className={`grid grid-cols-[2.25rem_2.75rem_8.5rem_2.5rem_1fr_2.5rem] items-center gap-x-4 pb-2 mb-3 border-b-2 border-neutral-400 dark:border-neutral-700 text-lg md:text-xl font-mono uppercase font-black tracking-tight ${isDark ? 'text-white' : 'text-black'}`}>
+        <div className={`grid grid-cols-[2.25rem_2.75rem_8.5rem_2.5rem_1fr_2.5rem] items-center gap-x-4 pb-2 mb-3 border-b-2 text-lg md:text-xl font-mono uppercase font-black tracking-tight ${
+          isDark ? 'border-eink-dark text-eink-white' : 'border-eink-mid-light text-eink-black'
+        }`}>
           <div>Tag</div>
           <div></div>
           <div>Regen-Skala</div>
@@ -77,7 +77,9 @@ export default function DailyForecastList({
             return (
               <div 
                 key={fc.day} 
-                className="grid grid-cols-[2.25rem_2.75rem_8.5rem_2.5rem_1fr_2.5rem] items-center gap-x-4 py-0.5 border-b-2 border-dashed border-neutral-300 dark:border-neutral-700 last:border-0 pb-2.5 last:pb-0"
+                className={`grid grid-cols-[2.25rem_2.75rem_8.5rem_2.5rem_1fr_2.5rem] items-center gap-x-4 py-0.5 border-b-2 border-dashed ${
+                  isDark ? 'border-eink-dark' : 'border-eink-mid-light'
+                } last:border-0 pb-2.5 last:pb-0`}
               >
                 {/* 1. Day Description */}
                 <div className="text-lg md:text-xl font-sans font-extrabold tracking-tight">
@@ -107,8 +109,8 @@ export default function DailyForecastList({
                           key={segment}
                           className={`w-2 h-3.5 border ${
                             filled 
-                              ? (isDark ? 'bg-white border-white' : 'bg-black border-black') 
-                              : (isDark ? 'border-neutral-800 bg-neutral-950/50' : 'border-neutral-300 bg-neutral-100')
+                              ? (isDark ? 'bg-eink-white border-eink-white' : 'bg-eink-black border-eink-black') 
+                              : (isDark ? 'border-eink-dark bg-eink-black/50' : 'border-eink-mid-light bg-eink-light')
                           }`}
                         />
                       );
@@ -125,8 +127,8 @@ export default function DailyForecastList({
                 <div className="bg-transparent">
                   <div className={`h-4 w-full rounded-full relative flex items-center border transition-all duration-150 ${
                     isDark 
-                      ? 'bg-neutral-800 border-neutral-700' 
-                      : 'bg-neutral-200 border-neutral-300'
+                      ? 'bg-eink-dark border-eink-dark' 
+                      : 'bg-eink-light border-eink-mid-light'
                   }`}>
                     
                     {/* Floating pill representing daily limits */}

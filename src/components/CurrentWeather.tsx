@@ -151,7 +151,7 @@ export default function CurrentWeather({
 
             <div
               className={`flex items-center justify-between gap-2 pt-2.5 border-t border-dashed ${
-                isDark ? "border-neutral-500" : "border-neutral-300"
+                isDark ? "border-eink-mid-dark" : "border-eink-mid-light"
               }`}
             >
               <div className="flex items-center gap-1.5 min-w-0">
@@ -174,7 +174,7 @@ export default function CurrentWeather({
         {/* Indoor Climate Gray Counter-Weight Card */}
         <div
           className={`px-3.5 py-4 rounded-lg flex flex-col justify-between ${
-            isDark ? "bg-neutral-900 text-white" : "bg-neutral-100 text-black"
+            isDark ? "bg-eink-dark text-eink-white" : "bg-eink-light text-eink-black"
           }`}
         >
           <div className="flex items-center pb-2 mb-3 border-b-2 border-current">
@@ -201,7 +201,7 @@ export default function CurrentWeather({
 
             <div
               className={`flex items-center justify-between gap-2 pt-2.5 border-t border-dashed ${
-                isDark ? "border-neutral-500" : "border-neutral-300"
+                isDark ? "border-eink-mid-dark" : "border-eink-mid-light"
               }`}
             >
               <div className="flex items-center gap-1.5 min-w-0">

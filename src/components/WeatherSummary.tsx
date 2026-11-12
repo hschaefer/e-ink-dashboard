@@ -84,10 +84,8 @@ export default function WeatherSummary({ data, theme }: WeatherSummaryProps) {
       </div>
 
       {/* Narrative Container Block - matches table styling */}
-      <div className={`pt-2 pb-0 rounded-lg ${
-        isDark 
-          ? 'bg-transparent text-white shadow-neutral-950/20' 
-          : 'bg-transparent text-black shadow-neutral-100/50'
+      <div className={`pt-2 pb-0 rounded-lg bg-transparent ${
+        isDark ? 'text-eink-white' : 'text-eink-black'
       }`}>
         <div className="flex flex-col gap-4 text-xl md:text-2xl font-sans font-medium leading-relaxed text-current">
           
@@ -109,8 +107,8 @@ export default function WeatherSummary({ data, theme }: WeatherSummaryProps) {
 
               {/* Tomorrow section with inline tag */}
               {tomorrow && (
-                <p className="pt-3 border-t-2 border-dashed border-neutral-400 dark:border-neutral-700">
-                  <span className="inline-flex items-center justify-center h-5 px-2 py-0.5 rounded text-[10px] font-mono uppercase tracking-wider font-extrabold bg-black text-white mr-2 select-none align-middle">
+                <p className={`pt-3 border-t-2 border-dashed ${isDark ? 'border-eink-dark' : 'border-eink-mid-light'}`}>
+                  <span className="inline-flex items-center justify-center h-5 px-2 py-0.5 rounded text-[10px] font-mono uppercase tracking-wider font-extrabold bg-eink-black text-eink-white mr-2 select-none align-middle">
                     Morgen
                   </span>
                   wird {tomorrowText}

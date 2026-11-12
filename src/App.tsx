@@ -72,11 +72,10 @@ export default function App() {
   const isDark = theme === 'dark';
 
   // Apply base styling according to E-Ink Theme
-  const bgClass = isDark ? 'bg-black text-white' : 'bg-white text-black';
+  const bgClass = isDark ? 'bg-eink-black text-eink-white' : 'bg-eink-white text-eink-black';
   
   // Custom headers or dividers using solid fills instead of borders
-  const statusBg = isDark ? 'bg-neutral-900 text-neutral-300' : 'bg-neutral-100 text-neutral-800';
-  const controlBg = isDark ? 'bg-neutral-900 border border-neutral-800' : 'bg-neutral-100 border border-neutral-200';
+  const statusBg = isDark ? 'bg-eink-dark text-eink-mid-light' : 'bg-eink-light text-eink-dark';
 
   if (currentPath === '/calibration') {
     return (
@@ -161,11 +160,11 @@ export default function App() {
                 <select 
                   value={activeScenario} 
                   onChange={(e) => setActiveScenario(e.target.value)}
-                  className={`px-3 py-1.5 text-xs font-mono tracking-wide rounded bg-transparent ${isDark ? 'text-white border border-neutral-800' : 'text-black border border-neutral-300'} outline-none`}
+                  className={`px-3 py-1.5 text-xs font-mono tracking-wide rounded bg-transparent ${isDark ? 'text-eink-white border border-eink-dark' : 'text-eink-black border border-eink-mid-light'} outline-none`}
                 >
-                  <option className={isDark ? 'bg-black text-white' : 'bg-white text-black'} value="springShowers">🌦️ Frühlingsregen</option>
-                  <option className={isDark ? 'bg-black text-white' : 'bg-white text-black'} value="mistyMorning">🌫️ Nebeliger Morgen</option>
-                  <option className={isDark ? 'bg-black text-white' : 'bg-white text-black'} value="goldenAfternoon">☀️ Goldener Nachmittag</option>
+                  <option className={isDark ? 'bg-eink-black text-eink-white' : 'bg-eink-white text-eink-black'} value="springShowers">🌦️ Frühlingsregen</option>
+                  <option className={isDark ? 'bg-eink-black text-eink-white' : 'bg-eink-white text-eink-black'} value="mistyMorning">🌫️ Nebeliger Morgen</option>
+                  <option className={isDark ? 'bg-eink-black text-eink-white' : 'bg-eink-white text-eink-black'} value="goldenAfternoon">☀️ Goldener Nachmittag</option>
                 </select>
               </div>
 
@@ -175,13 +174,13 @@ export default function App() {
                 <div className="flex rounded overflow-hidden">
                   <button 
                     onClick={() => setTheme('light')}
-                    className={`px-3 py-1.5 text-xs font-mono eink-button ${theme === 'light' ? (isDark ? 'bg-white text-black' : 'bg-black text-white font-bold') : (isDark ? 'bg-neutral-800 text-neutral-400' : 'bg-neutral-200 text-neutral-600')}`}
+                    className={`px-3 py-1.5 text-xs font-mono eink-button ${theme === 'light' ? (isDark ? 'bg-eink-white text-eink-black' : 'bg-eink-black text-eink-white font-bold') : (isDark ? 'bg-eink-dark text-eink-mid-light' : 'bg-eink-light text-eink-mid-dark')}`}
                   >
                     HELL (S/W)
                   </button>
                   <button 
                     onClick={() => setTheme('dark')}
-                    className={`px-3 py-1.5 text-xs font-mono eink-button ${theme === 'dark' ? (isDark ? 'bg-white text-black font-bold' : 'bg-black text-white') : (isDark ? 'bg-neutral-800 text-neutral-400' : 'bg-neutral-200 text-neutral-600')}`}
+                    className={`px-3 py-1.5 text-xs font-mono eink-button ${theme === 'dark' ? (isDark ? 'bg-eink-white text-eink-black font-bold' : 'bg-eink-black text-eink-white') : (isDark ? 'bg-eink-dark text-eink-mid-light' : 'bg-eink-light text-eink-mid-dark')}`}
                   >
                     DUNKEL (W/S)
                   </button>
@@ -191,7 +190,7 @@ export default function App() {
               {/* Calibration Page Link */}
               <button
                 onClick={() => navigate('/calibration')}
-                className={`self-end flex items-center justify-center gap-1.5 px-3 py-1.5 rounded text-xs font-mono eink-button ${isDark ? 'hover:bg-neutral-800 text-neutral-300' : 'hover:bg-neutral-200 text-neutral-800'}`}
+                className={`self-end flex items-center justify-center gap-1.5 px-3 py-1.5 rounded text-xs font-mono eink-button ${isDark ? 'hover:bg-eink-dark text-eink-mid-light' : 'hover:bg-eink-light text-eink-dark'}`}
                 title="Gehe zum Display-Kalibrierungstool"
               >
                 <Sliders size={14} />
@@ -201,7 +200,7 @@ export default function App() {
               {/* Hide panel utility */}
               <button
                 onClick={() => setShowControls(false)}
-                className={`self-end flex items-center justify-center gap-1.5 px-3 py-1.5 rounded text-xs font-mono eink-button ${isDark ? 'hover:bg-neutral-800 text-neutral-300' : 'hover:bg-neutral-200 text-neutral-800'}`}
+                className={`self-end flex items-center justify-center gap-1.5 px-3 py-1.5 rounded text-xs font-mono eink-button ${isDark ? 'hover:bg-eink-dark text-eink-mid-light' : 'hover:bg-eink-light text-eink-dark'}`}
                 title="Dieses Panel ausblenden, um das reine Papier-Layout als Vorschau anzuzeigen"
               >
                 <EyeOff size={14} />
@@ -213,7 +212,7 @@ export default function App() {
           <div className="flex justify-start pb-4">
               <button
                 onClick={() => setShowControls(true)}
-                className={`flex items-center gap-1.5 px-3 py-1 text-[10px] font-mono tracking-widest uppercase rounded opacity-30 hover:opacity-90 transition-opacity eink-button ${isDark ? 'bg-neutral-950 text-white' : 'bg-neutral-50 text-black'}`}
+                className={`flex items-center gap-1.5 px-3 py-1 text-[10px] font-mono tracking-widest uppercase rounded opacity-30 hover:opacity-90 transition-opacity eink-button ${isDark ? 'bg-eink-black text-eink-white' : 'bg-eink-white text-eink-black'}`}
               >
                 <Eye size={12} />
                 KALIBRIERUNGS-WERKZEUGE ANZEIGEN
