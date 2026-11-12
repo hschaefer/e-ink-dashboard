@@ -1,5 +1,5 @@
 {
-  "name": "E-Ink Wall Dashboard",
+  "name": "e-ink-dashboard",
   "description": "A highly readable, minimal, and crisp black-and-white dashboard designed for wall-mounted e-paper displays.",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]

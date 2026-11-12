@@ -23,7 +23,7 @@ services:
     container_name: eink-web-renderer
     restart: unless-stopped
     ports:
-      - "8080:8080"
+      - "80:8080"
     depends_on:
       dashboard:
         condition: service_healthy
