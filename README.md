@@ -13,13 +13,26 @@ A monochrome, 6-contrast-level e-ink weather dashboard built with React, Vite, a
 - **Home Assistant & Mock Scenarios:** Connects to Home Assistant weather, indoor climate, sun, air quality, and system status entities via `/api/ha/*`, or falls back to built-in mock scenarios.
 - **Display Calibration:** Built-in `/calibration` view for testing grayscale levels, patterns, and typography on e-ink panels.
 
-## Run Locally
+## Architecture
+
+This repository bundles two services orchestrated via `docker-compose.yml`:
+
+- `dashboard/`: Monochrome, 6-contrast-level e-ink weather dashboard (React, Vite, Express `/api/ha/*` proxy) served on port `3000`.
+- `renderer/`: Headless Chromium + Sharp service (`eink-web-renderer`) that captures `http://dashboard:3000` on a cron schedule and serves the processed grayscale PNG on port `8080` for the e-ink display.
+
+## Run with Docker Compose
+
+1. Copy `.env.example` to `.env` and configure your Home Assistant and renderer settings.
+2. Build and start both containers:
+   `docker compose up -d --build`
+3. Access the dashboard preview at `http://localhost:3000` and the rendered PNG at `http://localhost:8080`.
+
+## Run Dashboard Locally
 
 **Prerequisites:** Node.js
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
+1. `cd dashboard && npm install`
+2. Configure `../.env` (or `.env` in `dashboard/`)
 3. Run the app:
    `npm run dev`
 4. Type-check and build:
