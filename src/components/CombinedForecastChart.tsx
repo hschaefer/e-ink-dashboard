@@ -261,7 +261,7 @@ export default function CombinedForecastChart({
                 )}
 
                 <span
-                  className={`text-sm sm:text-base font-mono font-black tracking-tight tabular-nums leading-none ${
+                  className={`text-lg sm:text-xl font-mono font-black tracking-tight tabular-nums leading-none ${
                     isNextHour
                       ? `px-1.5 py-0.5 rounded-sm ${
                           isDark ? 'bg-white text-black' : 'bg-black text-white'
@@ -289,7 +289,7 @@ export default function CombinedForecastChart({
                 className="flex items-center justify-center"
                 title={`${format24hFullTime(item.time)} Uhr: ${condition}`}
               >
-                <WeatherIcon condition={condition} size={36} />
+                <WeatherIcon condition={condition} size={42} />
               </div>
             );
           })}

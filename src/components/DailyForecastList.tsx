@@ -47,7 +47,7 @@ export default function DailyForecastList({
           : 'bg-transparent text-black shadow-neutral-100/50'
       }`}>
         {/* Table Header Row aligned to column system for high professional polish */}
-        <div className={`grid grid-cols-[2.25rem_2.5rem_8.5rem_2.5rem_1fr_2.5rem] items-center gap-x-4 pb-2 mb-3 border-b-2 border-neutral-400 dark:border-neutral-700 text-lg md:text-xl font-mono uppercase font-black tracking-tight ${isDark ? 'text-white' : 'text-black'}`}>
+        <div className={`grid grid-cols-[2.25rem_2.75rem_8.5rem_2.5rem_1fr_2.5rem] items-center gap-x-4 pb-2 mb-3 border-b-2 border-neutral-400 dark:border-neutral-700 text-lg md:text-xl font-mono uppercase font-black tracking-tight ${isDark ? 'text-white' : 'text-black'}`}>
           <div>Tag</div>
           <div></div>
           <div>Regen-Skala</div>
@@ -72,7 +72,7 @@ export default function DailyForecastList({
             return (
               <div 
                 key={fc.day} 
-                className="grid grid-cols-[2.25rem_2.5rem_8.5rem_2.5rem_1fr_2.5rem] items-center gap-x-4 py-0.5 border-b-2 border-dashed border-neutral-300 dark:border-neutral-700 last:border-0 pb-2.5 last:pb-0"
+                className="grid grid-cols-[2.25rem_2.75rem_8.5rem_2.5rem_1fr_2.5rem] items-center gap-x-4 py-0.5 border-b-2 border-dashed border-neutral-300 dark:border-neutral-700 last:border-0 pb-2.5 last:pb-0"
               >
                 {/* 1. Day Description */}
                 <div className="text-lg md:text-xl font-sans font-extrabold tracking-tight">
@@ -84,7 +84,7 @@ export default function DailyForecastList({
                   <span className={isDark ? 'text-white' : 'text-black'}>
                     <WeatherIcon 
                       condition={fc.condition} 
-                      size={36} 
+                      size={42} 
                     />
                   </span>
                 </div>
