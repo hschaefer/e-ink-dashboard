@@ -181,15 +181,11 @@ export default function CombinedForecastChart({
       className="w-full flex flex-col gap-3 select-none"
       id="hourly-forecast-unified-section"
     >
-      {/* Header with instantaneous temperature span */}
+      {/* Header */}
       <div className="flex flex-wrap items-center justify-between gap-2 pb-1.5 border-b-2 border-current">
         <span className="text-sm font-mono tracking-widest uppercase font-extrabold flex items-center gap-2">
           <Clock size={16} strokeWidth={3} />
           Stündliche Vorhersage
-        </span>
-
-        <span className="text-xs font-mono font-black tracking-wide uppercase tabular-nums">
-          {minRounded === maxRounded ? `${minRounded}°` : `${minRounded}° – ${maxRounded}°`}
         </span>
       </div>
 
