@@ -4,6 +4,14 @@
 A monochrome, 6-contrast-level weather dashboard built for the Inkplate 10 e-paper screen.
 It connects to a local Home Assistant instance and serves a static image that can be displayed on the screen.
 
+<details>
+<summary>More fotos</summary>
+
+![Front](fotos/front.jpg)
+![Back](fotos/back.jpg)
+
+</details>
+
 ## Prerequisites
 
 - A local Home Assistant instance.
