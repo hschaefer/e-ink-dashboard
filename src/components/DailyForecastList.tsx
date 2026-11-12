@@ -59,8 +59,13 @@ export default function DailyForecastList({
         <div className="flex flex-col gap-3">
           {forecasts.map((fc, idx) => {
             // High-Low Range Positions Inside Global Graph Frame
-            const leftPercent = ((fc.tempMin - globalMin) / globalSpan) * 100;
-            const widthPercent = ((fc.tempMax - fc.tempMin) / globalSpan) * 100;
+            // When min and max are identical, represent it as a ±0.5° span so a visible bar renders
+            const isZeroSpan = fc.tempMax === fc.tempMin;
+            const rangeMin = isZeroSpan ? fc.tempMin - 0.5 : fc.tempMin;
+            const rangeMax = isZeroSpan ? fc.tempMax + 0.5 : fc.tempMax;
+            const leftPercent = Math.max(0, Math.min(100, ((rangeMin - globalMin) / globalSpan) * 100));
+            const rightPercent = Math.max(0, Math.min(100, ((rangeMax - globalMin) / globalSpan) * 100));
+            const widthPercent = Math.max(0, rightPercent - leftPercent);
 
             // Placement overlay of real current weather temperature indicator
             const safeCurrentTemp = currentTemp ?? 14.2;
