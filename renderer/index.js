@@ -7,6 +7,7 @@ const sharp = require('sharp');
 const cron = require('node-cron');
 
 // 1. Read environment variables with robust defaults
+const TZ = process.env.TZ || '';
 const TARGET_URL = process.env.TARGET_URL || 'https://example.com';
 const CRON_JOB = process.env.CRON_JOB || '*/1 * * * *';
 const RENDERING_TIMEOUT = parseInt(process.env.RENDERING_TIMEOUT, 10) || 30000;
@@ -19,6 +20,9 @@ const OUTPUT_FILE = path.join(__dirname, 'eink.png');
 let isRendering = false;
 
 console.log('--- Configuration Loaded ---');
+if (TZ) {
+  console.log(`TZ: ${TZ}`);
+}
 console.log(`TARGET_URL: ${TARGET_URL}`);
 console.log(`CRON_JOB: ${CRON_JOB}`);
 console.log(`RENDERING_TIMEOUT: ${RENDERING_TIMEOUT}ms`);
@@ -53,6 +57,14 @@ async function captureScreenshot() {
     });
 
     const page = await browser.newPage();
+
+    if (TZ) {
+      try {
+        await page.emulateTimezone(TZ);
+      } catch (tzError) {
+        console.warn(`Warning: Could not emulate timezone "${TZ}":`, tzError.message);
+      }
+    }
     
     // Set viewport dimensions
     await page.setViewport({

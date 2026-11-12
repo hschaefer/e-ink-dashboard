@@ -9,6 +9,8 @@ services:
     restart: unless-stopped
     env_file:
       - .env
+    environment:
+      - TZ=${TZ:-Europe/Berlin}
     healthcheck:
       test: ["CMD", "node", "-e", "fetch('http://localhost:3000/config.js').then(r => process.exit(r.ok ? 0 : 1)).catch(() => process.exit(1))"]
       interval: 10s
@@ -28,6 +30,7 @@ services:
       dashboard:
         condition: service_healthy
     environment:
+      - TZ=${TZ:-Europe/Berlin}
       - TARGET_URL=${TARGET_URL:-http://dashboard:3000}
       - CRON_JOB=${CRON_JOB:-*/1 * * * *}
       - RENDERING_TIMEOUT=${RENDERING_TIMEOUT:-30000}
